@@ -5,17 +5,17 @@
     <persistence-unit name="HiberBank">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <properties>
-          <property name="hibernate.connection.driver_class" value="oracle.jdbc.OracleDriver"/>
-		  <property name="hibernate.connection.password" value="oracle"/>
-		  <property name="hibernate.connection.url" value="jdbc:oracle:thin:@vmos01:1521:XE"/>
-		  <property name="hibernate.connection.username" value="c_dev_db"/>
-		  <property name="hibernate.connection.schema" value="c_dev_db"/>
-		  <property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect"/>
-		  <property name="hibernate.connection.pool_size" value="2"/>
-		  <property name="hibernate.connection.autocommit" value="false"/>
-		  <property name="hibernate.show_sql" value="true"/>
-		  <property name="hibernate.format_sql" value="true"/>
-		  <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+           <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306"/>
+            <property name="javax.persistence.jdbc.user" value="bank_tech"/>
+            <property name="javax.persistence.jdbc.password" value="oracle"/>
+
+            <!--Hibernate properties-->
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.hbm2ddl.auto" value="create"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+            <property name="hibernate.default_schema" value="bank_dev_schema"/>
         </properties>
 		  
     </persistence-unit>
