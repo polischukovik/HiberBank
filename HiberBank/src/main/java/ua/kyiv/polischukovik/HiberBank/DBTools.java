@@ -38,29 +38,20 @@ public class DBTools implements DBInterface {
 		em.close();
 	}
 
-
-
 	public void deleteObject(int id) {
 		// TODO Auto-generated method stub
 		
 	}
-
-
-
-	public <T> T findObjectById(int id, T clazz) {
-		EntityManager em = emf.createEntityManager();
-		return (T) em.find(clazz.getClass(), id);		
-	}
 	
-	public <T> List<T> findObjectsByName(String str, String namedQuery, T clazz) {
+	public <T> T findObjectById(int id, Class<T> clazz) {
 		EntityManager em = emf.createEntityManager();
-		Query  query = em.createNamedQuery(namedQuery, clazz.getClass());
-		query.setParameter("P1", str);
-		return query.getResultList();
-	}
+		return clazz.cast(em.find(clazz.getClass(), id));	
+	}	
 
-//	public void close(){
-//		em.close();
-//	}
-	
+	public <T> List<T> findObjectsByName(String string, String queryString, Class<T> clazz) {
+		EntityManager em = emf.createEntityManager();
+		Query  query = em.createNamedQuery(queryString, clazz.getClass());
+		query.setParameter("P1", string);
+		return  (List<T>) query.getResultList();
+	}	
 }
