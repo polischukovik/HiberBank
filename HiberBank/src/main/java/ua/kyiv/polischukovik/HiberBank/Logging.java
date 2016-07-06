@@ -1,19 +1,16 @@
 package ua.kyiv.polischukovik.HiberBank;
 
-import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class Logging {
-	static Logger log = null;
+	@Autowired
+	public static Logger log;
 	
-	private Logging(){
-	}
-	
-	public static void initialize(){
-		log = LogManager.getLogger(Logging.class);
-	}
-	
-	public static Logger getInstance(){
-		return log;
-	}
+//	private Logging(){
+//	}
+//	
+//	public static Logger getInstance(){
+//		return log;
+//	}
 }

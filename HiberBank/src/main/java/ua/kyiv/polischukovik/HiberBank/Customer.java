@@ -7,57 +7,67 @@ import javax.persistence.*;
 @Entity
 @Table(name = "Customers", uniqueConstraints = {
 		@UniqueConstraint(columnNames = {"INN"}) })
+@NamedQueries({
+	@NamedQuery(name="Customers.getCustomersByName", query="SELECT c FROM Customer c WHERE CONCAT(FIRST_NAME, LAST_NAME, FAMILY_NAME) LIKE '%:P1%'")
+})
 public class Customer {	
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "cust_id_sq")
-	@SequenceGenerator(name = "cust_id_sq", sequenceName = "SQ_CUST_ID")
-	@Column(name="ID")
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="ID", nullable=false, unique=true)
 	private int id;
-	@Column(name="NAME", nullable=false)
-	private String name;
-	@Column(name="INN", nullable=false)
-	private String inn;
-	private int segment;
+	@Column(name="FIRST_NAME", nullable=false)
+	private String firstName;
+	@Column(name="LAST_NAME", nullable=false)
+	private String lastName;
+	@Column(name="FAMILY_NAME", nullable=false)
+	private String familyName;
+	@Column(name="IPN", nullable=false, unique=true)
+	private String ipn;
+	@Column(name="STATUS", nullable=false)
 	private int status;
-	@Column(name="CREATED_BY")
+	@Column(name="TYPE")
+	private int type;	
+	@Column(name="CREATED_BY", nullable=false)
 	private int createdBy;
-	@Column(name="MODIFIED_BY")
+	@Column(name="MODIFIED_BY", nullable=false)
 	private int modifiedBy;
-	@Column(name="CREATED_TS")
+	@Column(name="CREATED_TS", nullable=false)
 	private long createdTs;
-	@Column(name="MODIFIED_TS")
+	@Column(name="MODIFIED_TS", nullable=false)
 	private long modifiedTs;
 	
 //	@ManyToMany(mappedBy="Customer", cascade = CascadeType.ALL)
 //	List<Customer> customers = new ArrayList<>();
 	
-	@Override
-	public String toString() {
-		return "Customer [name=" + name + ", inn=" + inn + "]";
-	}
+
+
 	
 	public Customer(){
 		
 	}
 
-	public Customer(String name, String inn, int segment, int status, int createdBy, int modifiedBy,
-			long createdTs, long modifiedTs) {
+	@Override
+	public String toString() {
+		return "Customer [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", familyName="
+				+ familyName + ", ipn=" + ipn + "]";
+	}
+
+
+
+	public Customer(String firstName, String lastName, String familyName, String ipn, int status, int type,
+			int createdBy, int modifiedBy, long createdTs, long modifiedTs) {
 		super();
-		this.id = id;
-		this.name = name;
-		this.inn = inn;
-		this.segment = segment;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.familyName = familyName;
+		this.ipn = ipn;
 		this.status = status;
+		this.type = type;
 		this.createdBy = createdBy;
 		this.modifiedBy = modifiedBy;
 		this.createdTs = createdTs;
 		this.modifiedTs = modifiedTs;
-	}
-	
-	public static void addCustomer(Customer cust){
-		Logging.log.info("Writting new customer to db: " + cust);
-		DBTools.writeObject(cust);
 	}
 
 	public int getId() {

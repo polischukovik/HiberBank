@@ -1,27 +1,66 @@
 package ua.kyiv.polischukovik.HiberBank;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceUnit;
+import javax.persistence.Query;
 
-public class DBTools {
-	private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("HiberBank");
-	private static EntityManager em = emf.createEntityManager();
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+
+public class DBTools implements DBInterface {
+
+	@Autowired
+	private EntityManagerFactory emf;
+
+	@Autowired
+	private Logger log;
 	
-	private DBTools(){
+	public void writeObject(Object o) {
+		EntityManager em = emf.createEntityManager();
+		
+		log.info("Attempting to persist object " + o );
+		
+		em.getTransaction().begin();
+		try{
+			em.persist(o);
+			em.getTransaction().commit();
+			log.info("Object " + o + " was successfully written to DB");
+		}catch(Exception e){
+			log.error(e.getMessage());
+			e.printStackTrace();
+			em.getTransaction().rollback();
+			log.info("Failed to write object to DB");
+		}
+		em.close();
+	}
+
+
+
+	public void deleteObject(int id) {
+		// TODO Auto-generated method stub
 		
 	}
 
-	public static void writeObject(Customer cust) {
-		Logging.log.info("Attempting to persist object " + cust);
-		em.getTransaction().begin();
-		try{
-			em.persist(cust);
-			em.getTransaction().commit();
-			Logging.log.info("Object was successfully written to DB");
-		}catch(Exception e){
-			em.getTransaction().rollback();
-			Logging.log.info("Failed to write object to DB");
-		}
+
+
+	public <T> T findObjectById(int id, T clazz) {
+		EntityManager em = emf.createEntityManager();
+		return (T) em.find(clazz.getClass(), id);		
 	}
+	
+	public <T> List<T> findObjectsByName(String str, String namedQuery, T clazz) {
+		EntityManager em = emf.createEntityManager();
+		Query  query = em.createNamedQuery(namedQuery, clazz.getClass());
+		query.setParameter("P1", str);
+		return query.getResultList();
+	}
+
+//	public void close(){
+//		em.close();
+//	}
+	
 }
