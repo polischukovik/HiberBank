@@ -7,5 +7,6 @@ public interface DBInterface {
 	public void deleteObject(int id);
 	public <T> T findObjectById(int id, Class<T> clazz);
 	public <T> List<T> findObjectsByName(String namePart, String string, Class<T> class1);
+	public <T> Object updateObject(int custId, Object object, Class<T> clazz);
 	
 }

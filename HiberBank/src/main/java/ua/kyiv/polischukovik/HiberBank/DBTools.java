@@ -53,5 +53,10 @@ public class DBTools implements DBInterface {
 		Query  query = em.createNamedQuery(queryString, clazz.getClass());
 		query.setParameter("P1", string);
 		return  (List<T>) query.getResultList();
+	}
+
+	public <T> Object updateObject(int custId, Object object, Class<T> clazz) {
+		// TODO Auto-generated method stub
+		return null;
 	}	
 }

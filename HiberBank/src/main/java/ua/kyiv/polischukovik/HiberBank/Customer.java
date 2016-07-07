@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "Customers", uniqueConstraints = {
-		@UniqueConstraint(columnNames = {"INN"}) })
+		@UniqueConstraint(columnNames = {"IPN"}) })
 @NamedQueries({
 	@NamedQuery(name="Customers.getCustomersByName", query="SELECT c FROM Customer c WHERE CONCAT(FIRST_NAME, LAST_NAME, FAMILY_NAME) LIKE '%:P1%'")
 })
@@ -72,6 +72,10 @@ public class Customer {
 
 	public int getId() {
 		return id;
+	}
+
+	public void setIpn(String ipn) {
+		this.ipn = ipn;
 	}
 	
 	

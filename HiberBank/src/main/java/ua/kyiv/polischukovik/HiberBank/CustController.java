@@ -29,4 +29,8 @@ public class CustController {
 	public List<Customer> getCustomersByName(String namePart){
 		return  dbIf.findObjectsByName(namePart, "Customers.getCustomersByName", Customer.class);
 	}
+	
+	public void updateCustomer(int custId, Customer customer ){
+		dbIf.updateObject(custId, customer, Customer.class);
+	}
 }
