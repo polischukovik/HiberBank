@@ -1,36 +1,77 @@
 package ua.kyiv.polischukovik.HiberBank;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.sql.DataSource;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.JpaVendorAdapter;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@Component("ua.kyiv.polischukovik")
+@ComponentScan("ua.kyiv.polischukovik")
+@PropertySource("classpath:config.properties")
+@EnableTransactionManagement
 public class AppConfig {
 	
-	@Bean
-	public EntityManagerFactory entityManagerFactory() {
-		return Persistence.createEntityManagerFactory("HiberBank-persistance-unit");
-	}
+    @Value("${jdbc.driver}")
+    private String jdbcDriver;
+
+    @Value("${jdbc.url}")
+    private String jdbcURL;
+
+    @Value("${jdbc.username}")
+    private String jdbcUsername;
+
+    @Value("${jdbc.password}")
+    private String jdbcPassword;
+
+    @Value("${hibernate.dialect}")
+    private String sqlDialect;
 	
-	@Bean
-	public DBInterface dbInterface(){
-		return new DBTools();
-	}
-	
-	@Bean
-	public CustController custController(){
-		return new CustController();
-	}
-	
-	@Bean
-	public Logger logger(){
-		return LogManager.getLogger(Logging.class);
-	}
+    @Bean
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory
+            (DataSource dataSource, JpaVendorAdapter jpaVendeorAdapter)
+    {
+        LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
+        entityManagerFactory.setDataSource(dataSource);
+        entityManagerFactory.setJpaVendorAdapter(jpaVendeorAdapter);
+        entityManagerFactory.setPackagesToScan("ua.kiev.prog");
+        return entityManagerFactory;
+    }
+
+    @Bean
+    public PlatformTransactionManager transactionManager(EntityManagerFactory emf){
+        return new JpaTransactionManager(emf);
+    }
+
+    @Bean
+    public JpaVendorAdapter jpaVendorAdapter() {
+        HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
+        adapter.setShowSql(true);
+        adapter.setGenerateDdl(true);
+        adapter.setDatabasePlatform(sqlDialect);
+
+        return adapter;
+    }
+
+    @Bean
+    public DataSource dataSource() {
+        DriverManagerDataSource ds = new DriverManagerDataSource();
+        ds.setDriverClassName(jdbcDriver);
+        ds.setUrl(jdbcURL);
+        ds.setUsername(jdbcUsername);
+        ds.setPassword(jdbcPassword);
+
+        return ds;
+    }
+
 }
