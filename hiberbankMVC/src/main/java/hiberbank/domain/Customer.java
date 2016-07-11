@@ -87,6 +87,86 @@ public class Customer {
 	public void setIpn(String ipn) {
 		this.ipn = ipn;
 	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getFamilyName() {
+		return familyName;
+	}
+
+	public void setFamilyName(String familyName) {
+		this.familyName = familyName;
+	}
+
+	public CustomerStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(CustomerStatus status) {
+		this.status = status;
+	}
+
+	public CustomerType getType() {
+		return type;
+	}
+
+	public void setType(CustomerType type) {
+		this.type = type;
+	}
+
+	public int getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(int createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public int getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(int modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
+
+	public long getCreatedTs() {
+		return createdTs;
+	}
+
+	public void setCreatedTs(long createdTs) {
+		this.createdTs = createdTs;
+	}
+
+	public long getModifiedTs() {
+		return modifiedTs;
+	}
+
+	public void setModifiedTs(long modifiedTs) {
+		this.modifiedTs = modifiedTs;
+	}
+
+	public String getIpn() {
+		return ipn;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 	
 	
 	

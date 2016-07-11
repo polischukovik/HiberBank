@@ -50,7 +50,7 @@ public class SpringRootConfig {
         dataSource.setUrl(env.getRequiredProperty(PROPERTY_DATABASE_URL));
         dataSource.setUsername(env.getRequiredProperty(PROPERTY_DATABASE_USERNAME));
         dataSource.setPassword(env.getRequiredProperty(PROPERTY_DATABASE_PASSWORD));
- 
+        
         return dataSource;
     }
  

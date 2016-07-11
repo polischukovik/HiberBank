@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import hiberbank.service.CustomerService;
 
 @Controller
-@RequestMapping("/hiberbankMVC/")
+@RequestMapping("/")
 public class CustomerController {
     static final int DEFAULT_GROUP_ID = -1;
 
@@ -33,7 +33,7 @@ public class CustomerController {
 //        return "index";
 //    }
     
-    @RequestMapping("/")
+    @RequestMapping("/hiberbankMVC")
     public String index(Model model) {
     	logger.info("Inside " + this.getClass() + " webMvcController index");
         model.addAttribute("customers", customerService.getAll());
