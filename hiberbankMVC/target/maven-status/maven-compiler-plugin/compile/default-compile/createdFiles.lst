@@ -1,0 +1,12 @@
+hiberbank\config\SpringWebConfig.class
+hiberbank\controller\CustomerController.class
+hiberbank\repository\CustomerRepository.class
+hiberbank\domain\Customer.class
+hiberbank\domain\enums\CustomerType.class
+hiberbank\service\CustomerService.class
+hiberbank\service\impl\CustomerServiceImpl.class
+hiberbank\domain\enums\CustomerStatus.class
+hiberbank\config\SpringRootConfig.class
+hiberbank\config\SpringWebMvcSimpleInitializer.class
+hiberbank\Application.class
+hiberbank\domain\User.class
