@@ -1,0 +1,25 @@
+#main-containter {
+margin-bottom: 0px !important;
+}
+#root-footer {
+margin-top: 0px !important;
+}
+#root-main-left-panel, #root-main-workspace{
+height: 700px;
+}
+#data-table-customer{
+height: 625px;
+}
+#root-main-workspace {
+margin-top: 20px;
+}
+#data-table-customer{
+overflow-y: scroll;
+}
+tbody tr:nth-child(odd) {
+background-color: #E0E0E0;
+}
+tbody tr:hover {
+  background-color: #95C9B7;		   
+  cursor: pointer;		   
+}

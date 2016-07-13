@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<project name="springapp" basedir="." default="usage">
+<project name="hiberBank" basedir="." default="usage">
     
 	<property environment="env"/>
 	<property file="build.properties"/>
@@ -30,6 +30,9 @@
         <echo message=""/>
         <echo message="Available targets are:"/>
         <echo message=""/>
+    	<echo message="createSchema --> creates schema for application data"/>
+    	<echo message="loadData     --> populates schema with default values"/>
+    	<echo message="==================================="/>
         <echo message="build     --> Build the application"/>
         <echo message="deploy    --> Deploy application as directory"/>
         <echo message="deploywar --> Deploy application as a WAR file"/>
@@ -72,7 +75,7 @@
         </copy>
     </target>
 	
-    <target name="createTables">
+    <target name="createSchema">
         <echo message="CREATE TABLES USING: ${db.driver} ${db.url}"/>
         <sql driver="${db.driver}"
              url="${db.url}"
@@ -98,17 +101,29 @@
         </sql> 
     </target>
 
-    <target name="loadData">
+    <target name="loadDataMySQL">
         <echo message="LOAD DATA USING: ${db.driver} ${db.url}"/>
         <sql driver="${db.driver}"
              url="${db.url}"
              userid="${db.user}"
              password="${db.pw}"
              onerror="continue"
-             src="db/load_data.sql">  
+             src="db/load_data_MySQL.sql">  
             <classpath refid="master-classpath"/>
         </sql> 
     </target>
+	
+	<target name="loadDataOracle">
+	        <echo message="LOAD DATA USING: ${db.driver} ${db.url}"/>
+	        <sql driver="${db.driver}"
+	             url="${db.url}"
+	             userid="${db.user}"
+	             password="${db.pw}"
+	             onerror="continue"
+	             src="db/loadData_Oracle.sql">  
+	            <classpath refid="master-classpath"/>
+	        </sql> 
+	    </target>
 
     <target name="printData">
         <echo message="PRINT DATA USING: ${db.driver} ${db.url}"/>
@@ -263,7 +278,7 @@
 		            ***********************************************************
 		        </fail>
 		    </target>
-	<target name="dbTests" depends="build, buildtests,dropTables,createTables,loadData" 
+	<target name="dbTests" depends="build, buildtests,dropTables,createSchema,loadDataOracle,loadDataMySQL" 
 	            description="Run db tests">
 	        <junit printsummary="on"
 	            fork="false"

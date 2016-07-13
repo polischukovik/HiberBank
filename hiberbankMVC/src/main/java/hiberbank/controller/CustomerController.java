@@ -1,5 +1,6 @@
 package hiberbank.controller;
 
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,8 +17,8 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
     
-    @Autowired
-    private Logger logger;
+    //@Autowired
+    private Logger logger = LogManager.getLogger(getClass());
 
 //    @RequestMapping("/")
 //    public String index(Model model) {
@@ -35,9 +36,12 @@ public class CustomerController {
     
     @RequestMapping("/hiberbankMVC")
     public String index(Model model) {
-    	logger.info("Inside " + this.getClass() + " webMvcController index");
+    	logger.info("Entered index() Controller method");
+    	
+    	String page = "customer_details";
         model.addAttribute("customers", customerService.getAll());
-        return "index";
+        logger.info(String.format("Returning page %s", page));
+        return page;
     }
 
 //    @RequestMapping("/group_add_page")

@@ -2,6 +2,7 @@ package hiberbank.service.impl;
 
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,8 +17,8 @@ public class CustomerServiceImpl implements CustomerService{
     @Autowired
     private CustomerRepository customerRepository;
     
-    @Autowired
-    private Logger logger;
+    //@Autowired
+    private Logger logger = LogManager.getLogger(getClass());
  
     @Override
     @Transactional
@@ -47,10 +48,13 @@ public class CustomerServiceImpl implements CustomerService{
     @Override
     @Transactional(readOnly=true)
     public List<Customer> getAll() {
-    	logger.info("Inside " + this.getClass() + " getAll() method");
+    	logger.info(String.format("Entered getAll() Service method") );
+    	logger.info(String.format("Executing findAll()") );
     	List<Customer> result = customerRepository.findAll();
+    	logger.info(String.format("Done findAll(): %d records retrieved",result.size()) );
+    	logger.info(String.format("Listing result: ") );
     	for(Customer customer : result){
-    		logger.info("Retrieved customers:" + customer);
+    		logger.info(String.format("\t%s", customer));
     	}
         return result;
     }

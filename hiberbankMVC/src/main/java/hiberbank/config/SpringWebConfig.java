@@ -1,5 +1,6 @@
 package hiberbank.config;
 
+import org.apache.logging.log4j.LogManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -15,25 +16,23 @@ import org.springframework.web.servlet.view.UrlBasedViewResolver;
 @ComponentScan({ "hiberbank.controler" })
 public class SpringWebConfig extends WebMvcConfigurerAdapter {
 	
-	 
+
 	@Override
-	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry
-					.addResourceHandler("/resources/**")
-                        .addResourceLocations("/resources/");
-	}
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+    }
 	
-//    @Bean
+//    @Bean(name="htmlViewResolver")
 //    public UrlBasedViewResolver setupViewResolver() {
 //        UrlBasedViewResolver resolver = new UrlBasedViewResolver();
-//        resolver.setPrefix("/resources/core/views/jsp/");
-//        resolver.setSuffix(".jsp");
+//        resolver.setPrefix("/WEB-INF/views/html/");
+//        resolver.setSuffix(".html");
 //        resolver.setViewClass(JstlView.class);
 //        resolver.setOrder(0);
 //        return resolver;
 //    }
 	
-    @Bean
+    @Bean(name="jspViewResolver")
     public InternalResourceViewResolver jspViewResolver() {
         InternalResourceViewResolver bean = new InternalResourceViewResolver();
         bean.setViewClass(JstlView.class);
@@ -41,6 +40,14 @@ public class SpringWebConfig extends WebMvcConfigurerAdapter {
         bean.setSuffix(".jsp");
         return bean;
     }
+    
+//    @Bean(name="htmlViewResolver")
+//    public InternalResourceViewResolver htmlViewResolver() {
+//        InternalResourceViewResolver bean = new InternalResourceViewResolver();
+//        bean.setPrefix("/WEB-INF/views/html/");
+//        bean.setSuffix(".html");
+//        return bean;
+//    }
 	
 	
  
