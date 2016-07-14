@@ -5,6 +5,10 @@
   <head>
     <title>HiberBank</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+
+    
+    
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="../resources/core/css/materialize.min.css">
     <link rel="stylesheet" href="../resources/core/css/hb_customer_summary.css">
@@ -55,15 +59,19 @@
         <div id="root-main-left-panel" class="col l3 m3 s3 z-depth-1">
           <ul class="collapsible" data-collapsible="accordion">
             <li>
-              <div class="collapsible-header"><i class="material-icons">filter_drama</i>First</div>
+              <div class="collapsible-header"><i class="material-icons">filter_drama</i>Customers</div>
               <div class="collapsible-body">
-                <p>Lorem ipsum dolor sit amet.</p>
+                <div class="collection">
+			        <a href="/hiberbankMVC/cust" class="collection-item">Customer Summary</a>			        
+			    </div>
               </div>
             </li>
             <li>
-              <div class="collapsible-header"><i class="material-icons">place</i>Second</div>
+              <div class="collapsible-header"><i class="material-icons">place</i>Accounts</div>
               <div class="collapsible-body">
-                <p>Lorem ipsum dolor sit amet.</p>
+                <div class="collection">
+			        <a href="/hiberbankMVC/acc" class="collection-item">Accounts Summary</a>			        
+			    </div>
               </div>
             </li>
             <li>

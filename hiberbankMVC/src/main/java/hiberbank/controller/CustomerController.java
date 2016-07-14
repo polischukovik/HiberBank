@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import hiberbank.service.AccountService;
 import hiberbank.service.CustomerService;
 
 @Controller
@@ -16,9 +17,43 @@ public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
+    @Autowired
+    private AccountService accountService;
     
-    //@Autowired
     private Logger logger = LogManager.getLogger(getClass());
+    
+    @RequestMapping("/hiberbankMVC/")
+    public String index(Model model) {
+    	logger.info("Entered index() Controller method");
+    	
+    	String page = "index";
+        logger.info(String.format("Returning page %s", page));
+        return page;
+    }
+
+    @RequestMapping("/hiberbankMVC/cust")
+    public String customerMaster(Model model) {
+    	logger.info("Entered customerMaster() Controller method");
+    	
+    	String page = "customer_master";
+        model.addAttribute("customers", customerService.getAll());
+        logger.info(String.format("Returning page %s", page));
+        return page;
+    }
+    
+    @RequestMapping("/hiberbankMVC/acc")
+    public String accountMaster(Model model) {
+    	logger.info("Entered accountMaster() Controller method");
+    	
+    	String page = "account_master";
+        model.addAttribute("accounts", accountService.getAll());
+        logger.info(String.format("Returning page %s", page));
+        return page;
+    }
+}
+
+
+
 
 //    @RequestMapping("/")
 //    public String index(Model model) {
@@ -34,15 +69,7 @@ public class CustomerController {
 //        return "index";
 //    }
     
-    @RequestMapping("/hiberbankMVC")
-    public String index(Model model) {
-    	logger.info("Entered index() Controller method");
-    	
-    	String page = "customer_details";
-        model.addAttribute("customers", customerService.getAll());
-        logger.info(String.format("Returning page %s", page));
-        return page;
-    }
+
 
 //    @RequestMapping("/group_add_page")
 //    public String groupAddPage() {
@@ -104,4 +131,4 @@ public class CustomerController {
 //        model.addAttribute("contacts", contactService.listContacts(null));
 //        return "index";
 //    }
-}
+

@@ -25,7 +25,7 @@ public class Account {
 	private String accKey;
 	@Column(name="ACC_SUBACC", nullable=false)
 	private String accSubacc;
-	@Column(name="CUSTOMER", nullable=false)
+	@Column(name="CUSTOMER_ID", nullable=false)
 	private int customer;
 	@Column(name="STATUS", nullable=false)
     @Enumerated(EnumType.ORDINAL)
@@ -45,6 +45,10 @@ public class Account {
 	@Column(name="MODIFIED_TS", nullable=false)
 	private long modifiedTs;	
 		
+	public Account(){
+		
+	}
+	
 	public Account(String accClass, String accKey, String accSubacc, int customer, AccountStatus status, double amount,
 			double amountDyn, int ccy, int createdBy, int modifiedBy, long createdTs, long modifiedTs) {
 		super();
@@ -140,4 +144,13 @@ public class Account {
 	public void setModifiedTs(long modifiedTs) {
 		this.modifiedTs = modifiedTs;
 	}
+
+	@Override
+	public String toString() {
+		return "Account [id=" + id + ", accClass=" + accClass + ", accKey=" + accKey + ", accSubacc=" + accSubacc
+				+ ", customer=" + customer + ", status=" + status + ", amount=" + amount + ", amountDyn=" + amountDyn
+				+ ", ccy=" + ccy + ", createdBy=" + createdBy + ", modifiedBy=" + modifiedBy + ", createdTs="
+				+ createdTs + ", modifiedTs=" + modifiedTs + "]";
+	}
+	
 }
