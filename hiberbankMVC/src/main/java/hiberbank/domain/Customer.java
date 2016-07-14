@@ -38,13 +38,9 @@ public class Customer {
     @Enumerated(EnumType.ORDINAL)
 	private CustomerType type;	
     
-//	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-//    @JoinColumn(name = "id", nullable = false)
     @Column(name="CREATED_BY")
     private int createdBy;
 	
-//	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-//    @JoinColumn(name = "id", nullable = false)
     @Column(name="MODIFIED_BY")
     private int modifiedBy;
 	

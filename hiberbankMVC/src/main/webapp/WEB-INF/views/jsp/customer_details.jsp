@@ -7,14 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="../resources/core/css/materialize.min.css">
-    <link rel="stylesheet" href="../resources/core/css/hb_customer_summary.css" rel="stylesheet">
-    <script type="text/javascript" src="../resources/core/js/jquery-3.0.0.min.js"></script>           
+    <link rel="stylesheet" href="../resources/core/css/hb_customer_summary.css">
+    <script src="../resources/core/js/jquery-3.0.0.min.js"></script>           
     <script src="../resources/core/js/materialize.min.js"></script>        
     <script src="../resources/core/js/hb_common.js"></script>     
   </head>
   <body>
     <!-- START HEADER -->
-    <header id="root-header" class="page-topbar teal container col l4 m4 s12 z-depth-2">
+    <header id="root-header" class="page-topbar teal container col l5 m5 s12 z-depth-2">
       <!-- start header nav-->
       <nav class="navbar-color">
         <div class="nav-wrapper ">

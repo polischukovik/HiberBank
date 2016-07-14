@@ -1,6 +1,5 @@
 package hiberbank.config;
 
-import org.springframework.boot.SpringApplication;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class SpringWebMvcSimpleInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
