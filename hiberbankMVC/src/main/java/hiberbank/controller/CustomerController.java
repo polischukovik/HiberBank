@@ -22,7 +22,7 @@ public class CustomerController {
     
     private Logger logger = LogManager.getLogger(getClass());
     
-    @RequestMapping("/hiberbankMVC/")
+    @RequestMapping("/hiberbankMVC")
     public String index(Model model) {
     	logger.info("Entered index() Controller method");
     	

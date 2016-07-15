@@ -84,6 +84,8 @@
         </div>
         <div id="root-main-workspace" class="col l9 m9 s9">
           <div id="main-content" class="ontainer  z-depth-1">
+          	<div id="control-panel" class="row">
+          	</div>
             <!--DataTables example-->
             <div id="table-datatables">
               <h5 class="header">

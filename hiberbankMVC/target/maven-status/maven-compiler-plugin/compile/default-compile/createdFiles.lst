@@ -8,7 +8,6 @@ hiberbank\domain\enums\CustomerType.class
 hiberbank\service\AccountService.class
 hiberbank\service\CustomerService.class
 hiberbank\service\impl\CustomerServiceImpl.class
-hiberbank\controller\AccountController.class
 hiberbank\domain\enums\CustomerStatus.class
 hiberbank\config\SpringRootConfig.class
 hiberbank\domain\SchemaInfo.class
