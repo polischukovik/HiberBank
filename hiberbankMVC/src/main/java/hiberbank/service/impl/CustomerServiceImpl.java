@@ -58,4 +58,18 @@ public class CustomerServiceImpl implements CustomerService{
     	}
         return result;
     }
+    
+    @Override
+    @Transactional(readOnly=true)
+    public List<Customer> getFiltered(String name, String ipn) {
+    	logger.info(String.format("Entered getFiltered() Service method") );
+    	logger.info(String.format("Executing findFilteredByNameAndIpn(:s, :s) with search parameters [%s, %s]", name, ipn) );
+    	List<Customer> result = customerRepository.findFilteredByNameAndIpn(name, ipn);
+    	logger.info(String.format("Done findFilteredByNameAndIpn(): %d records retrieved",result.size()) );
+    	logger.info(String.format("Listing result: ") );
+    	for(Customer customer : result){
+    		logger.info(String.format("\t%s", customer));
+    	}
+        return result;
+    }
 }

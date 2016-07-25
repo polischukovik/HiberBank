@@ -1,22 +1,27 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
   <head>
     <title>HiberBank</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Compiled and minified JQuery -->
+    <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
     
-
-    
-    
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
+    <!-- Compiled and minified ICON support -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="../resources/core/css/materialize.min.css">
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-materialize/0.1.9/angular-materialize.min.js"></script>
     <link rel="stylesheet" href="../resources/core/css/hb_customer_summary.css">
-    <script src="../resources/core/js/jquery-3.0.0.min.js"></script>           
-    <script src="../resources/core/js/materialize.min.js"></script>        
-    <script src="../resources/core/js/hb_common.js"></script>     
+    
+    <script src="../resources/core/js/hb_common.js"></script>    
+    <script src="../resources/core/js/hb_customer.js"></script>     
   </head>
-  <body>
+  <body ng-app="">
     <!-- START HEADER -->
     <header id="root-header" class="page-topbar teal container col l5 m5 s12 z-depth-2">
       <!-- start header nav-->
@@ -62,16 +67,16 @@
               <div class="collapsible-header"><i class="material-icons">filter_drama</i>Customers</div>
               <div class="collapsible-body">
                 <div class="collection">
-			        <a href="/hiberbankMVC/cust" class="collection-item">Customer Summary</a>			        
-			    </div>
+                  <a href="/hiberbankMVC/cust" class="collection-item">Customer Summary</a>			        
+                </div>
               </div>
             </li>
             <li>
               <div class="collapsible-header"><i class="material-icons">place</i>Accounts</div>
               <div class="collapsible-body">
                 <div class="collection">
-			        <a href="/hiberbankMVC/acc" class="collection-item">Accounts Summary</a>			        
-			    </div>
+                  <a href="/hiberbankMVC/acc" class="collection-item">Accounts Summary</a>			        
+                </div>
               </div>
             </li>
             <li>
@@ -84,13 +89,32 @@
         </div>
         <div id="root-main-workspace" class="col l9 m9 s9">
           <div id="main-content" class="ontainer  z-depth-1">
-          	<div id="control-panel" class="row">
-          	</div>
+            <div id="control-panel" class="row">
+            </div>
             <!--DataTables example-->
             <div id="table-datatables">
               <h5 class="header">
-              Customers</h4>
-              <div class="row">
+              Customers</h5>
+              <div class="row" id="tabs" ng-init="showTabs=true">
+                <div class="row" ng-if="showTabs" style="z-index: 2">
+                  <div class=" col right">
+                    <div class="input-field col ">
+                      <i class="material-icons prefix">account_circle</i>
+                      <input id="name-filter-input" type="text" class="validate">
+                      <label for="icon_prefix">Name</label>
+                    </div>
+                    <div class="input-field col ">
+                      <i class="material-icons prefix">numeric</i>
+                      <input id="ipn-filter-input" type="text" class="validate">
+                      <label for="icon_prefix">IPN</label>
+                    </div>
+                    <div id="show-filter" class="btn-floating grey" ng-click="showTabs = !showTabs"><i class="material-icons">list</i></div>
+                    <div class="btn-floating"><i class="material-icons">add</i></div>
+                    <!--<div id="filter" class="btn-floating waves-effect waves-light">
+                      <i class="material-icons">done</i>
+                      </div>-->
+                  </div>
+                </div>
                 <div id="data-table-customer" class="col s12 m12 l12">
                   <table class="responsive-table display" cellspacing="0">
                     <thead>
@@ -104,16 +128,7 @@
                       </tr>
                     </thead>
                     <tbody id="data-table-customer-body">
-                    	<c:forEach items="${customers}" var="customer">
-						   <tr id="${customer.id}" class='clickable-row'>
-	                        <td>${customer.lastName} ${customer.firstName} ${customer.familyName}</td>
-	                        <td>${customer.ipn}</td>
-	                        <td>${customer.type}</td>
-	                        <td>${customer.status}</td>
-	                        <td>${customer.createdTs}</td>
-	                        <td>${customer.modifiedTs}</td>
-	                      </tr>
-						</c:forEach>                      
+                      
                     </tbody>
                   </table>
                 </div>
@@ -133,7 +148,5 @@
       </div>
     </footer>
     <!-- END FOOTER -->
-    </div>
-    </div>
   </body>
 </html>

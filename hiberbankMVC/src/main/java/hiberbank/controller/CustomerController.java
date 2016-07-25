@@ -1,5 +1,7 @@
 package hiberbank.controller;
 
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,14 +9,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import hiberbank.domain.Customer;
 import hiberbank.service.AccountService;
 import hiberbank.service.CustomerService;
 
 @Controller
 @RequestMapping("/")
 public class CustomerController {
-    static final int DEFAULT_GROUP_ID = -1;
-
     @Autowired
     private CustomerService customerService;
     @Autowired
@@ -36,20 +37,20 @@ public class CustomerController {
     	logger.info("Entered customerMaster() Controller method");
     	
     	String page = "customer_master";
-        model.addAttribute("customers", customerService.getAll());
         logger.info(String.format("Returning page %s", page));
         return page;
     }
     
-    @RequestMapping("/hiberbankMVC/acc")
+    @RequestMapping(value = "/hiberbankMVC/acc")
     public String accountMaster(Model model) {
     	logger.info("Entered accountMaster() Controller method");
     	
     	String page = "account_master";
-        model.addAttribute("accounts", accountService.getAll());
         logger.info(String.format("Returning page %s", page));
         return page;
     }
+    
+
 }
 
 

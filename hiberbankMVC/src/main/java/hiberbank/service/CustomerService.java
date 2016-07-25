@@ -10,4 +10,5 @@ public interface CustomerService {
 	Customer getByIpn(String ipn);
 	Customer editCustomer(Customer customer);
 	List<Customer> getAll();
+	List<Customer> getFiltered(String name, String ipn);
 }
