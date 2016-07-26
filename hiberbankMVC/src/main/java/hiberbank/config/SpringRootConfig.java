@@ -20,6 +20,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -33,7 +34,8 @@ import hiberbank.service.CustomerService;
 @EnableTransactionManagement
 @PropertySource("classpath:/app.properties")
 @EnableJpaRepositories("hiberbank.repository")
-public class SpringRootConfig {
+@EnableSpringDataWebSupport
+public class SpringRootConfig{
 	
     private Logger logger = LogManager.getLogger(SpringRootConfig.class);
 	

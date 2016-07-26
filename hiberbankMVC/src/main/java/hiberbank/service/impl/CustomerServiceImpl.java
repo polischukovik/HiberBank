@@ -7,6 +7,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,7 +39,7 @@ public class CustomerServiceImpl implements CustomerService{
     
     @Override
     @Transactional(readOnly=true)
-	public Page<Customer> getByIpn(String ipn, PageRequest pageRequest) {
+	public Page<Customer> getByIpn(String ipn, Pageable pageRequest) {
 		return customerRepository.findByIpn(ipn, pageRequest);
 	}
     
@@ -49,12 +51,15 @@ public class CustomerServiceImpl implements CustomerService{
 	
     @Override
     @Transactional(readOnly=true)
-    public Page<Customer> getAll(PageRequest pageRequest) {
+    public Page<Customer> findAll(Pageable pageRequest) {
     	logger.info(String.format("Entered getAll() Service method") );
     	logger.info(String.format("Executing findAll()") );
-    	Page<Customer> result = customerRepository.findAll(new PageRequest(1, 20));
+    	
+    	Page<Customer> result = customerRepository.findAll(pageRequest);
+    	
     	logger.info(String.format("Done findAll(): %d records retrieved",result.getSize()) );
     	logger.info(String.format("Listing result: ") );
+    	
     	for(Customer customer : result){
     		logger.info(String.format("\t%s", customer));
     	}
@@ -63,15 +68,21 @@ public class CustomerServiceImpl implements CustomerService{
     
     @Override
     @Transactional(readOnly=true)
-    public Page<Customer> getFiltered(String name, String ipn, PageRequest pageRequest) {
+    public Page<Customer> getFiltered(String name, String ipn, Pageable pageRequest) {
     	logger.info(String.format("Entered getFiltered() Service method") );
     	logger.info(String.format("Executing findFilteredByNameAndIpn(:s, :s) with search parameters [%s, %s]", name, ipn) );
+    	
     	Page<Customer> result = customerRepository.findFilteredByNameAndIpn(name, ipn, pageRequest);
+    	
     	logger.info(String.format("Done findFilteredByNameAndIpn(): %d records retrieved",result.getSize()));
     	logger.info(String.format("Listing result: ") );
+    	
     	for(Customer customer : result){
     		logger.info(String.format("\t%s", customer));
     	}
+    	
         return result;
     }
+
+
 }

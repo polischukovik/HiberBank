@@ -5,16 +5,16 @@ margin-bottom: 0px !important;
 margin-top: 0px !important;
 }
 #root-main-left-panel, #root-main-workspace{
-height: 700px;
+height: 650px;
 }
 #data-table-customer{
-height: 625px;
+height: 525px;
 }
 #root-main-workspace {
 margin-top: 20px;
 }
 #data-table-customer{
-overflow-y: scroll;
+/*overflow-y: scroll;*/
 }
 tbody tr:nth-child(odd) {
 background-color: #E0E0E0;
@@ -36,3 +36,9 @@ td {
 .row .col {
 	padding: 0 2.5rem !important;
 }
+#page-selector li{
+   font-size: 14px !important;
+}	
+#control-panel label{
+   font-size: 14px !important;
+}	
