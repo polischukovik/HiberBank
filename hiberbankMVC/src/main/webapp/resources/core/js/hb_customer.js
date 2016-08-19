@@ -83,9 +83,11 @@ var RestGetCustomers = function(nameStr, ipnStr) {
         });
 }
 //interface functions
-var fillCustomerTable = function(array){
-  var tableContent = "";
-  for(var i in array){
+var fillCustomerTable = function(result){
+  var tableContent = "<tbody class=\"container\">\n";
+  var array = result.content;
+  for(var o in array){
+	var i = array[o];
     tableContent += '<tr id="'+ i.id + '" class="clickable-row"> \
                      <td>' + i.lastName + ' \
                      ' + i.firstName + ' \
@@ -99,6 +101,7 @@ var fillCustomerTable = function(array){
   }
 
 	//console.log(tableContent);
+  tableContent += "\n</tbody>";
   $("#data-table-customer").html(tableContent);
 }
 var createPaginations = function(count){

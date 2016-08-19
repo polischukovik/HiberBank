@@ -2,6 +2,7 @@ hiberbank\config\SpringWebConfig.class
 hiberbank\controller\CustomerController.class
 hiberbank\repository\AccountRepository.class
 hiberbank\repository\CustomerRepository.class
+hiberbank\config\RestWebConfiguration.class
 hiberbank\domain\Account.class
 hiberbank\domain\Customer.class
 hiberbank\domain\enums\CustomerType.class
