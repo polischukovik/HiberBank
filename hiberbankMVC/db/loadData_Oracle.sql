@@ -25,7 +25,7 @@ insert into customers select	25,'Gladys','Wong','Ernest','549388081',	1,1,1,1,1,
 insert into customers select	26,'Toby','Sparks','Matthew','705845762',	1,1,1,1,1,25	 from dual;
 
 -----------------------------------------------------------------------------------------------------------
-ID ACC_CLASS ACC_KEY ACC_SUBACC CUSTOMER_ID STATUS AMOUNT AMOUNT_DYN CCY CREATED_BY MODIFIED_BY CREATED_TS MODIFIED_TS
+--ID ACC_CLASS ACC_KEY ACC_SUBACC CUSTOMER_ID STATUS AMOUNT AMOUNT_DYN CCY CREATED_BY MODIFIED_BY CREATED_TS MODIFIED_TS
 insert into ACCOUNTS select 2, '2620', '2', '245267630', 22,1,1868.67,1868.67,840,1,1,1466596750,1466596750 from dual;
 insert into ACCOUNTS select 3, '2605', '8', '074506199', 25,0,1918.22,1918.22,826,1,1,1463861518,1463861518 from dual;
 insert into ACCOUNTS select 4, '2620', '8', '746601884', 20,2,315.28,315.28,980,1,1,1463250781,1463250781 from dual;
