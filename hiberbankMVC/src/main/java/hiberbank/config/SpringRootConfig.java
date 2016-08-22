@@ -14,6 +14,8 @@ import javax.sql.DataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.jpa.HibernatePersistenceProvider;
+import org.springframework.boot.ExitCodeGenerator;
+import org.springframework.boot.SpringApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +29,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import hiberbank.Application;
 import hiberbank.service.CustomerService;
 
 @Configuration
@@ -57,24 +60,30 @@ public class SpringRootConfig{
     @Bean
     public DataSource dataSource() {
     	Map<String, String> map = new HashMap<>();
+    	DriverManagerDataSource dataSource = new DriverManagerDataSource();
     	
-    	logger.info("Retrieveing DataSource properties...");
-    	map.put(PROPERTY_DATABASE_DRIVER, env.getRequiredProperty(PROPERTY_DATABASE_DRIVER + "." + env.getRequiredProperty(PROPERTY_DB_ENGINE)));
-    	map.put(PROPERTY_DATABASE_URL, env.getRequiredProperty(PROPERTY_DATABASE_URL));
-    	map.put(PROPERTY_DATABASE_USERNAME, env.getRequiredProperty(PROPERTY_DATABASE_USERNAME));
-    	map.put(PROPERTY_DATABASE_PASSWORD, env.getRequiredProperty(PROPERTY_DATABASE_PASSWORD));
-    	
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        
-        logger.info("Setting DataSource properties:");
-        logger.info(String.format("\tProperty %s: %s", PROPERTY_DATABASE_DRIVER, map.get(PROPERTY_DATABASE_DRIVER)));
-        dataSource.setDriverClassName(map.get(PROPERTY_DATABASE_DRIVER));
-        logger.info(String.format("\tProperty %s: %s", PROPERTY_DATABASE_URL, map.get(PROPERTY_DATABASE_URL)));
-        dataSource.setUrl( map.get(PROPERTY_DATABASE_URL));
-        logger.info(String.format("\tProperty %s: %s", PROPERTY_DATABASE_USERNAME, map.get(PROPERTY_DATABASE_USERNAME)));
-        dataSource.setUsername(map.get(PROPERTY_DATABASE_USERNAME));
-        logger.info(String.format("\tProperty %s: %s", PROPERTY_DATABASE_PASSWORD, map.get(PROPERTY_DATABASE_PASSWORD)));
-        dataSource.setPassword(map.get(PROPERTY_DATABASE_PASSWORD));
+    	try{
+	    	logger.info("Retrieveing DataSource properties...");
+	    	map.put(PROPERTY_DATABASE_DRIVER, env.getRequiredProperty(PROPERTY_DATABASE_DRIVER + "." + env.getRequiredProperty(PROPERTY_DB_ENGINE)));
+	    	map.put(PROPERTY_DATABASE_URL, env.getRequiredProperty(PROPERTY_DATABASE_URL));
+	    	map.put(PROPERTY_DATABASE_USERNAME, env.getRequiredProperty(PROPERTY_DATABASE_USERNAME));
+	    	map.put(PROPERTY_DATABASE_PASSWORD, env.getRequiredProperty(PROPERTY_DATABASE_PASSWORD));
+	    	
+	        logger.info("Setting DataSource properties:");
+	        logger.info(String.format("\tProperty %s: %s", PROPERTY_DATABASE_DRIVER, map.get(PROPERTY_DATABASE_DRIVER)));
+	        dataSource.setDriverClassName(map.get(PROPERTY_DATABASE_DRIVER));
+	        logger.info(String.format("\tProperty %s: %s", PROPERTY_DATABASE_URL, map.get(PROPERTY_DATABASE_URL)));
+	        dataSource.setUrl( map.get(PROPERTY_DATABASE_URL));
+	        logger.info(String.format("\tProperty %s: %s", PROPERTY_DATABASE_USERNAME, map.get(PROPERTY_DATABASE_USERNAME)));
+	        dataSource.setUsername(map.get(PROPERTY_DATABASE_USERNAME));
+	        logger.info(String.format("\tProperty %s: %s", PROPERTY_DATABASE_PASSWORD, map.get(PROPERTY_DATABASE_PASSWORD)));
+	        dataSource.setPassword(map.get(PROPERTY_DATABASE_PASSWORD));
+    	}
+    	catch (IllegalStateException e) {
+			logger.error(e.getMessage());
+			logger.info("Exiting...");
+			Application.exit();
+    	}
         
         return dataSource;
     }

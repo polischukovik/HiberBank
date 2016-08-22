@@ -5,7 +5,8 @@ import org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguratio
 
 public class RestWebConfiguration extends RepositoryRestMvcConfiguration {
 	@Override protected void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
-		  config.setPageParamName("p")
+
+		config.setPageParamName("p")
 		        .setLimitParamName("l")
 		        .setSortParamName("q");
 		}

@@ -84,7 +84,7 @@ var RestGetCustomers = function(nameStr, ipnStr) {
 }
 //interface functions
 var fillCustomerTable = function(result){
-  var tableContent = "<tbody class=\"container\">\n";
+  var tableContent = "";
   var array = result.content;
   for(var o in array){
 	var i = array[o];
@@ -101,8 +101,8 @@ var fillCustomerTable = function(result){
   }
 
 	//console.log(tableContent);
-  tableContent += "\n</tbody>";
-  $("#data-table-customer").html(tableContent);
+  tableContent += "\n";
+  $("#data-table-customer-body").html(tableContent);
 }
 var createPaginations = function(count){
   var pageNum = Math.floor(count/20);

@@ -138,16 +138,16 @@
 
 						<div id="data-table-customer" class="">
 							<table class="responsive-table display" cellspacing="0">
-								<thead>
-									<tr>
-										<th>Name</th>
-										<th>IPN</th>
-										<th>Type</th>
-										<th>Status</th>
-										<th>Created</th>
-										<th>Modified</th>
-									</tr>
-								</thead>
+			                    <thead>
+			                      <tr>
+			                        <th>Name</th>
+			                        <th>IPN</th>
+			                        <th>Type</th>
+			                        <th>Status</th>
+			                        <th>Created</th>
+			                        <th>Modified</th>
+			                      </tr>
+			                    </thead>
 								<tbody id="data-table-customer-body">
 
 								</tbody>
