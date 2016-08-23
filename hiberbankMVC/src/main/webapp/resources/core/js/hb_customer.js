@@ -4,6 +4,7 @@ $(document).ready(function(){
   $(FILTER_REMOVE_BUTTON_ID).click(FilterRemoveClick);
   $(ADD_BUTTON_ID).click(AddClick);
   $("#name-filter-input,#ipn-filter-input").keyup(filterInputEventHendler);
+  
 })
 var Init = function(){
   RestGetCustomers('','');
@@ -22,6 +23,7 @@ var BUTTON_CLASS_DISABLED="grey";
 //global variables
 var filterEnabled=false;
 var filterRemoveState=false;
+var totalPages=1;
 
 //common functions
 var styleButtonState = function(id, state){
@@ -72,17 +74,18 @@ var FilterRemoveClick = function(){
 //service functions
 var RestGetCustomers = function(nameStr, ipnStr) {
         var prefix = '/hiberbankMVC/service/customer';
-        var request_att_filter_name = 'filter_name';
-        var request_att_filter_ipn = 'filter_ipn';
+        var request_att_filter_name = 'filter_name=';
+        var request_att_filter_ipn = 'filter_ipn=';
+        console.log(prefix + '/?'+request_att_filter_name + nameStr + '&' + request_att_filter_ipn + ipnStr)
         $.ajax({
             type: 'GET',
-            url:  prefix + '/?'+request_att_filter_name + '=' + nameStr + '&' + request_att_filter_ipn + ' ' + ipnStr,
+            url:  prefix + '/?'+request_att_filter_name + nameStr + '&' + request_att_filter_ipn + ipnStr,
             dataType: 'json',
             async: true,
             success: function(result) {
             	console.log(result);
                 fillCustomerTable(result);
-                createPaginations(result.length);
+                createPaginations(result.totalPages);
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 alert(jqXHR.status + ' ' + jqXHR.responseText);
@@ -93,6 +96,7 @@ var RestGetCustomers = function(nameStr, ipnStr) {
 var fillCustomerTable = function(result){
   var tableContent = "";
   var array = result.content;
+  totalPages = result.totalPages;
   for(var o in array){
 	var i = array[o];
     tableContent += '<tr id="'+ i.id + '" class="clickable-row"> \
@@ -116,15 +120,13 @@ var fillCustomerTable = function(result){
   });
 }
 var createPaginations = function(count){
-  var pageNum = Math.floor(count/20);
-  if(count/20 > pageNum) pageNum++;
-  if(pageNum === 0) pageNum++;
-  var list = "";
-  var index;
-  for (index = 0; index < pageNum; index++) {
-      list += '<li class="waves-effect"><a href="#!">' + index++ + '</a></li>\n';
-  }
-  $("#page-selector-list").html(list);
+	$('#pagination').twbsPagination({
+	      totalPages: count,
+	      visiblePages: 5,
+	      onPageClick: function (event, page) {
+	          $('#page-content').text('Page ' + page);
+	      }
+	  });
 }
 /*
     var RestGet = function() {

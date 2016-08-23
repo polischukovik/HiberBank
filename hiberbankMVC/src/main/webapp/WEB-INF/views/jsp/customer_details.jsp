@@ -107,10 +107,10 @@
 		</div>
 		<div id="root-main-workspace" class="col l9 m9 s9">
 			<div id="main-content" class="">
-        <div class="row">
-				<div id="control-panel" class="col left">					
-					<h5 class="header">Edit Customer</h5>
-				</div>				
+		        <div class="row">
+					<div id="control-panel" class="col left">					
+						<h5 class="header">Edit Customer</h5>
+					</div>				
 					<div class="col right">						
 						<div id="btn-ok" class="btn teal">
 							<i class="">save</i>
@@ -120,7 +120,7 @@
 						</div>
 					</div>
 				</div>
-				</div>
+			</div>
 				<!--DataTables example-->
 				<div id="customer-details">
 					<div class="row">

@@ -8,7 +8,7 @@ margin-top: 0px !important;
 height: 650px;
 }
 #data-table-customer{
-height: 525px;
+height: 480px;
 }
 #root-main-workspace {
 margin-top: 20px;
@@ -44,4 +44,8 @@ td {
 .btn {
 	height: 25px;
     line-height: 25px;	
+}
+
+li.active {
+	background-color: #26a69a !important;
 }

@@ -14,7 +14,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 	@Query("select c from Customer c where c.ipn = :ipn")
 	Page<Customer> findByIpn(@Param("ipn") String ipn, Pageable pageRequest);
 	
-	@Query(value="select c from Customer c where CONCAT(c.firstName,' ',c.lastName,' ',familyName) like :name or c.ipn = :ipn" )
+	@Query(value="select c from Customer c where CONCAT(c.firstName,' ',c.lastName,' ',familyName) like :name and c.ipn like :ipn" )
 	Page<Customer> findFilteredByNameAndIpn(@Param("name") String name, @Param("ipn") String ipn, Pageable pageRequest);
 	
 }

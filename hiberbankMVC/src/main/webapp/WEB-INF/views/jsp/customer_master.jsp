@@ -27,6 +27,8 @@
 
 <script src="../resources/core/js/hb_common.js"></script>
 <script src="../resources/core/js/hb_customer.js"></script>
+<script src="../resources/core/js/jquery.twbsPagination.js"></script>
+<script src="../resources/core/js/jquery.twbsPagination.min.js"></script>
 </head>
 <body ng-app="">
 	<!-- START HEADER -->
@@ -106,32 +108,33 @@
 		</div>
 		<div id="root-main-workspace" class="col l9 m9 s9">
 			<div id="main-content" class="">
-				<h5 class="header">Customers</h5>
-				<div id="control-panel" class="row">
-					<div class="" ng-if="showTabs">
-						<div class=" col right">
-							<div class="input-field col ">
-								<input id="name-filter-input" type="text" class="validate">
-								<label>Name</label>
-							</div>
-							<div class="input-field col ">
-								<input id="ipn-filter-input" type="text" class="validate">
-								<label>IPN</label>
-							</div>
-							<div id="filter" class="btn-floating grey"
-								ng-click="showTabs = !showTabs">
-								<i class="mdi mdi-filter"></i>
-							</div>
-							<div id="remove-filter" class="btn-floating grey"
-								ng-click="showTabs = !showTabs">
-								<i class="mdi mdi-filter-remove"></i>
-							</div>
-							<div id="btn-add" class="btn-floating">
-								<i class="material-icons">add</i>
-							</div>
+				<div class="row">
+					<div id="control-panel" class="col left">
+						<h5 class="header">Customers</h5>
+					</div>
+					<div class="col right">	
+						<div class="input-field col ">
+							<input id="name-filter-input" type="text" class="validate">
+							<label>Name</label>
+						</div>
+						<div class="input-field col ">
+							<input id="ipn-filter-input" type="text" class="validate">
+							<label>IPN</label>
+						</div>
+						<div id="filter" class="btn-floating grey"
+							ng-click="showTabs = !showTabs">
+							<i class="mdi mdi-filter"></i>
+						</div>
+						<div id="remove-filter" class="btn-floating grey"
+							ng-click="showTabs = !showTabs">
+							<i class="mdi mdi-filter-remove"></i>
+						</div>
+						<div id="btn-add" class="btn-floating">
+							<i class="material-icons">add</i>
 						</div>
 					</div>
-				</div>
+				</div>				
+			</div>
 				<!--DataTables example-->
 				<div id="table-datatables" class="row">
 					<div class="" id="tabs" ng-init="showTabs=true">
@@ -152,17 +155,9 @@
 
 								</tbody>
 							</table>
-						</div>
+						</div>	
 						<div id="page-selector">
-							<ul id="page-selector-list" class="pagination center">
-								<!--<li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
-				                      <li class="teal"><a href="#!">1</a></li>
-				                      <li class="waves-effect"><a href="#!">2</a></li>
-				                      <li class="waves-effect"><a href="#!">3</a></li>
-				                      <li class="waves-effect"><a href="#!">4</a></li>
-				                      <li class="waves-effect"><a href="#!">5</a></li>
-				                      <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>-->
-							</ul> 
+							<ul id="pagination" class="pagination-sm center"></ul>
 						</div>
 					</div>
 				</div>
