@@ -112,11 +112,11 @@
 					<h5 class="header">Edit Customer</h5>
 				</div>				
 					<div class="col right">						
-						<div id="okBtn" class="btn teal">
-							<i class="">Save</i>
+						<div id="btn-ok" class="btn teal">
+							<i class="">save</i>
 						</div>
-						<div id="okBtn" class="btn teal">
-							<i class="">Cancel</i>
+						<div id="btn-back" class="btn teal">
+							<i class="">back</i>
 						</div>
 					</div>
 				</div>
@@ -169,6 +169,7 @@
                 </select>
                 <label>Type</label>
             </div>
+          </div>
           <div class="row">
             <div class="input-field col s6">
               <input disabled id="created-by" type="text" class="validate">

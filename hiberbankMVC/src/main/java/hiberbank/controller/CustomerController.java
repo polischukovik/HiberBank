@@ -44,6 +44,20 @@ public class CustomerController {
         return page;
     }
     
+    @RequestMapping(value = "/hiberbankMVC/cust/add", method = RequestMethod.POST)
+    public String addCustomer(@ModelAttribute Customer customer, Model model) {
+    	logger.info("Entered addCustomer() Controller method");
+    	
+    	Map<String, Object> m = model.asMap();
+    	logger.info("Model attributes:");
+    	for(String key : m.keySet()){
+    		logger.info("\t" + key + " : " + m.get(key));
+    	}
+    	String page = "customer_master";
+        logger.info(String.format("Returning page %s", page));
+        return page;
+    }
+    
     @RequestMapping("/hiberbankMVC/cust/{id}")
     public String customerDetails(@PathVariable(value = "id") int id, Model model) {
     	logger.info("Entered customerDetails() Controller method");

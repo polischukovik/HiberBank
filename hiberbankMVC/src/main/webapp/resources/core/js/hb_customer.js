@@ -126,7 +126,7 @@ var createPaginations = function(count){
   }
   $("#page-selector-list").html(list);
 }
-
+/*
     var RestGet = function() {
         $.ajax({
             type: 'GET',
@@ -197,3 +197,4 @@ var createPaginations = function(count){
             }
         });
     }
+*/
