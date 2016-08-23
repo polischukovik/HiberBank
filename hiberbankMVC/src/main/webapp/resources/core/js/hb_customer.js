@@ -1,11 +1,12 @@
 $(document).ready(function(){
-  Init();
+  Init();  
   $(FILTER_BUTTON_ID).click(FilterClick);
   $(FILTER_REMOVE_BUTTON_ID).click(FilterRemoveClick);
   $("#name-filter-input,#ipn-filter-input").keyup(filterInputEventHendler);
 })
 var Init = function(){
   RestGetCustomers('','');
+  
 }
 
 
@@ -103,6 +104,10 @@ var fillCustomerTable = function(result){
 	//console.log(tableContent);
   tableContent += "\n";
   $("#data-table-customer-body").html(tableContent);
+  $(".clickable-row").click(function() {
+      window.document.location = "cust/" + $(this).attr('id');
+      console.log("listener set");
+  });
 }
 var createPaginations = function(count){
   var pageNum = Math.floor(count/20);

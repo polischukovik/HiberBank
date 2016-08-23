@@ -1,6 +1,8 @@
 package hiberbank.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import hiberbank.domain.Customer;
 import hiberbank.service.AccountService;
@@ -37,6 +40,16 @@ public class CustomerController {
     	logger.info("Entered customerMaster() Controller method");
     	
     	String page = "customer_master";
+        logger.info(String.format("Returning page %s", page));
+        return page;
+    }
+    
+    @RequestMapping("/hiberbankMVC/cust/{id}")
+    public String customerDetails(@PathVariable(value = "id") int id, Model model) {
+    	logger.info("Entered customerDetails() Controller method");
+    	
+    	String page = "customer_details";
+    	model.addAttribute("customerId", String.valueOf(id));
         logger.info(String.format("Returning page %s", page));
         return page;
     }
