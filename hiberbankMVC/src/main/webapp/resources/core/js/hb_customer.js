@@ -2,6 +2,7 @@ $(document).ready(function(){
   Init();  
   $(FILTER_BUTTON_ID).click(FilterClick);
   $(FILTER_REMOVE_BUTTON_ID).click(FilterRemoveClick);
+  $(ADD_BUTTON_ID).click(AddClick);
   $("#name-filter-input,#ipn-filter-input").keyup(filterInputEventHendler);
 })
 var Init = function(){
@@ -12,8 +13,9 @@ var Init = function(){
 
 //static variables
 var FILTER_BUTTON_ID="#filter";
+var ADD_BUTTON_ID="#btn-add";
 var FILTER_REMOVE_BUTTON_ID="#remove-filter";
-var INPUT_FILTER_NAME="#name-filter-input";
+var INPUT_FILTER_NAME="#name-filter-input";	
 var INPUT_FILTER_IPN="#ipn-filter-input";
 var BUTTON_CLASS_ENABLED="teal";
 var BUTTON_CLASS_DISABLED="grey"; 
@@ -42,6 +44,10 @@ var filterInputEventHendler = function (){
     }
 }
 //event hendlers
+var AddClick = function(){
+	window.document.location = "cust/-1";
+	console.log("Add");
+}
 var FilterClick = function(){
   if(document.querySelector(FILTER_BUTTON_ID).classList.contains(BUTTON_CLASS_ENABLED)){
     filterEnabled = true;

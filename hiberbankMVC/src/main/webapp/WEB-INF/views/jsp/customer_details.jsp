@@ -12,6 +12,7 @@
 <!-- Compiled and minified CSS -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
+
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/1.6.50/css/materialdesignicons.min.css">
 <!-- Compiled and minified ICON support -->
@@ -106,12 +107,11 @@
 		</div>
 		<div id="root-main-workspace" class="col l9 m9 s9">
 			<div id="main-content" class="">
+        <div class="row">
 				<div id="control-panel" class="col left">					
 					<h5 class="header">Edit Customer</h5>
-				</div>
-				<div class="">
-					<div class="col right">
-						
+				</div>				
+					<div class="col right">						
 						<div id="okBtn" class="btn teal">
 							<i class="">Save</i>
 						</div>
@@ -123,7 +123,72 @@
 				</div>
 				<!--DataTables example-->
 				<div id="customer-details">
-					
+					<div class="row">
+        <div class="col s3 m3 l3">
+          <div class="card">
+            <div class="card-image">
+              <img  src="/resources/core/images/profile.png">
+            </div>           
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s3 m3 l3">
+            <input id="last_name" type="text" class="validate">
+            <label for="last_name">Last Name</label>
+          </div>
+          <div class="input-field col s3 m3 l3">
+            <input id="first_name" type="text" class="validate">
+            <label for="first_name">First Name</label>
+          </div>
+          <div class="input-field col s3 m3 l3">
+            <input id="family_name" type="text" class="validate">
+            <label for="family_name">Family Name</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s6">
+            <input id="ipn" type="text" class="validate">
+            <label for="ipn">IPN</label>
+          </div>
+            <div id="cust-status"class="input-field col s12 m6">
+                <select>
+                  <option value="" disabled selected>Status</option>
+                  <option value="1">ACTIVE</option>
+                  <option value="2">DELETED</option>
+                  <option value="3">ENTERED</option>
+                </select>
+                <label>Status</label>
+            </div>
+            <div id="cust-type" class="input-field col s12 m6">
+                <select>
+                  <option value="" disabled selected>Type</option>
+                  <option value="1">REGULAR</option>
+                  <option value="2">BUSSINES</option>
+                  <option value="3">PLATINUM</option>
+                  <option value="4">EMPL</option>
+                </select>
+                <label>Type</label>
+            </div>
+          <div class="row">
+            <div class="input-field col s6">
+              <input disabled id="created-by" type="text" class="validate">
+              <label for="created-by">Created by</label>
+            </div>
+            <div class="input-field col s6">
+              <input disabled id="created-time" type="text" class="validate">
+              <label for="created-time">Created Time</label>
+            </div>
+            <div class="input-field col s6">
+              <input disabled id="modified-by" type="text" class="validate">
+              <label for="modified-by">Modified by</label>
+            </div>            
+            <div class="input-field col s6">
+              <input disabled id="modified-time" type="text" class="validate">
+              <label for="modified-time">Modified Time</label>
+            </div>
+          </div>
+        </div>
+      </div>
 				</div>
 			</div>
 		</div>

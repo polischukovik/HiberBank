@@ -126,7 +126,7 @@
 								ng-click="showTabs = !showTabs">
 								<i class="mdi mdi-filter-remove"></i>
 							</div>
-							<div class="btn-floating">
+							<div id="btn-add" class="btn-floating">
 								<i class="material-icons">add</i>
 							</div>
 						</div>
