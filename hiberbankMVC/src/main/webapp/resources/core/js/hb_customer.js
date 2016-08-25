@@ -72,11 +72,15 @@ var FilterRemoveClick = function(){
   }
 }
 //service functions
-var RestGetCustomers = function(nameStr, ipnStr) {
-        var prefix = '/hiberbankMVC/service/customer';
-        var request_att_filter_name = 'filter_name=';
-        var request_att_filter_ipn = 'filter_ipn=';
-        console.log(prefix + '/?'+request_att_filter_name + nameStr + '&' + request_att_filter_ipn + ipnStr)
+var RestGetCustomers = function(nameStr, ipnStr, page) {
+	console.log(nameStr + " "+ ipnStr + " " +page);
+	if(page == '') page = '1';
+	
+        var prefix = '/hiberbankMVC/service/customer' ;
+        var request_att_filter_name = 'filter_name=' + nameStr;
+        var request_att_filter_ipn = 'filter_ipn=' + ipnStr;
+        var request_att_page = 'page=' + page;
+        console.log(prefix + '/?'+request_att_filter_name + '&' + request_att_filter_ipn + '&' + request_att_page)
         $.ajax({
             type: 'GET',
             url:  prefix + '/?'+request_att_filter_name + nameStr + '&' + request_att_filter_ipn + ipnStr,
@@ -124,7 +128,9 @@ var createPaginations = function(count){
 	      totalPages: count,
 	      visiblePages: 5,
 	      onPageClick: function (event, page) {
-	          $('#page-content').text('Page ' + page);
+	    	    var nameFilterTxt = $(INPUT_FILTER_NAME).val();
+	    	    var ipnFilterTxt = $(INPUT_FILTER_IPN).val();
+	    	    RestGetCustomers(nameFilterTxt,ipnFilterTxt,page);
 	      }
 	  });
 }
