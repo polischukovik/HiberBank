@@ -7,7 +7,9 @@ $(document).ready(function(){
   
 })
 var Init = function(){
-  RestGetCustomers('','');
+	console.log("Init");
+  RestGetCustomers('','',1);
+	//PageSelected(null,1);
   
 }
 
@@ -24,6 +26,8 @@ var BUTTON_CLASS_DISABLED="grey";
 var filterEnabled=false;
 var filterRemoveState=false;
 var totalPages=1;
+var prev_page=-1;
+var cur_page=-1;
 
 //common functions
 var styleButtonState = function(id, state){
@@ -57,7 +61,7 @@ var FilterClick = function(){
     styleButtonState(FILTER_BUTTON_ID, filterEnabled);
     var nameFilterTxt = $(INPUT_FILTER_NAME).val();
     var ipnFilterTxt = $(INPUT_FILTER_IPN).val();
-    RestGetCustomers(nameFilterTxt,ipnFilterTxt);
+    RestGetCustomers(nameFilterTxt,ipnFilterTxt,1);
     styleButtonState(FILTER_BUTTON_ID, false);
   }
 }
@@ -68,12 +72,19 @@ var FilterRemoveClick = function(){
   if(filterEnabled){
     filterEnabled = false;
     console.log("Filter disabled");    
-    RestGetCustomers('','');  
+    RestGetCustomers('','',1);  
   }
+}
+
+var PageSelected = function (event, page) {
+    var nameFilterTxt = $(INPUT_FILTER_NAME).val();
+    var ipnFilterTxt = $(INPUT_FILTER_IPN).val();
+    console.log("PageSelected");
+    RestGetCustomers(nameFilterTxt,ipnFilterTxt,page);
 }
 //service functions
 var RestGetCustomers = function(nameStr, ipnStr, page) {
-	console.log(nameStr + " "+ ipnStr + " " +page);
+	
 	if(page == '') page = '1';
 	
         var prefix = '/hiberbankMVC/service/customer' ;
@@ -83,11 +94,11 @@ var RestGetCustomers = function(nameStr, ipnStr, page) {
         console.log(prefix + '/?'+request_att_filter_name + '&' + request_att_filter_ipn + '&' + request_att_page)
         $.ajax({
             type: 'GET',
-            url:  prefix + '/?'+request_att_filter_name + nameStr + '&' + request_att_filter_ipn + ipnStr,
+            url:  prefix + '/?'+request_att_filter_name + '&' + request_att_filter_ipn + '&' + request_att_page,
             dataType: 'json',
             async: true,
             success: function(result) {
-            	console.log(result);
+            	console.log("RestGetCustomers:\n" + result);
                 fillCustomerTable(result);
                 createPaginations(result.totalPages);
             },
@@ -124,14 +135,11 @@ var fillCustomerTable = function(result){
   });
 }
 var createPaginations = function(count){
+	if(!count) count = 1;
 	$('#pagination').twbsPagination({
 	      totalPages: count,
 	      visiblePages: 5,
-	      onPageClick: function (event, page) {
-	    	    var nameFilterTxt = $(INPUT_FILTER_NAME).val();
-	    	    var ipnFilterTxt = $(INPUT_FILTER_IPN).val();
-	    	    RestGetCustomers(nameFilterTxt,ipnFilterTxt,page);
-	      }
+	      onPageClick: PageSelected(event, page)
 	  });
 }
 /*
