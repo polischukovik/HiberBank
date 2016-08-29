@@ -51,7 +51,7 @@ public class RestController {
     		}
     	}
     	
-    	return customerService.getFiltered(nameStr, ipnStr, new PageRequest(page, 20));
+    	return customerService.getFiltered(nameStr, ipnStr, new PageRequest(page-1, 20));
     }
 //    @RequestMapping(value = "/customer", method = RequestMethod.GET)
 //    public Page<Customer> getCustomerList(Pageable pageRequest){

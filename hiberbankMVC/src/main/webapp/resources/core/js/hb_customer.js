@@ -27,7 +27,7 @@ var filterEnabled=false;
 var filterRemoveState=false;
 var totalPages=1;
 var prev_page=-1;
-var cur_page=-1;
+var cur_page=1;
 
 //common functions
 var styleButtonState = function(id, state){
@@ -80,7 +80,8 @@ var PageSelected = function (event, page) {
     var nameFilterTxt = $(INPUT_FILTER_NAME).val();
     var ipnFilterTxt = $(INPUT_FILTER_IPN).val();
     console.log("PageSelected");
-    RestGetCustomers(nameFilterTxt,ipnFilterTxt,page);
+    $('#page-content').text('Page ' + page);
+    //RestGetCustomers(nameFilterTxt,ipnFilterTxt,page);
 }
 //service functions
 var RestGetCustomers = function(nameStr, ipnStr, page) {
@@ -135,11 +136,21 @@ var fillCustomerTable = function(result){
   });
 }
 var createPaginations = function(count){
-	if(!count) count = 1;
+	//if(!count) count = 1;
+	console.log("Creating pagination with page count" + count)
+	$('#pagination').html('');
 	$('#pagination').twbsPagination({
 	      totalPages: count,
 	      visiblePages: 5,
-	      onPageClick: PageSelected(event, page)
+	      initiateStartPageClick: false,
+	      onPageClick: function (event, page) {
+    	  
+    	    var nameFilterTxt = $(INPUT_FILTER_NAME).val();
+    	    var ipnFilterTxt = $(INPUT_FILTER_IPN).val();
+    	    console.log("PageSelected: " + page);
+    	    
+    	    RestGetCustomers(nameFilterTxt,ipnFilterTxt,page);
+	    	}
 	  });
 }
 /*

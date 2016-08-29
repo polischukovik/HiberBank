@@ -74,7 +74,7 @@ public class CustomerServiceImpl implements CustomerService{
     	
     	Page<Customer> result = customerRepository.findFilteredByNameAndIpn(name, ipn, pageRequest);
     	
-    	logger.info(String.format("Done findFilteredByNameAndIpn(): %d records retrieved",result.getSize()));
+    	logger.info(String.format("Done findFilteredByNameAndIpn(): %d records in %d pages retrieved",result.getTotalElements(), result.getTotalPages()));
     	logger.info(String.format("Listing result: ") );
     	
     	for(Customer customer : result){
