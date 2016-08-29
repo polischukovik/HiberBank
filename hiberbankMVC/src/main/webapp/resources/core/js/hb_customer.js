@@ -138,7 +138,10 @@ var fillCustomerTable = function(result){
 var createPaginations = function(count){
 	//if(!count) count = 1;
 	console.log("Creating pagination with page count" + count)
-	$('#pagination').html('');
+	$('#pagination').empty();
+	$('#pagination').removeData("twbs-pagination");	
+	$('#pagination').unbind("page");
+	
 	$('#pagination').twbsPagination({
 	      totalPages: count,
 	      visiblePages: 5,

@@ -42,15 +42,26 @@ public class CustomerController {
         return page;
     }
     
+    @RequestMapping("/hiberbankMVC/cust")
+    public void customerMasterAttributes(@RequestParam String filterName, @RequestParam String filterIpn, @RequestParam String page, Model model) {
+    	logger.info("Entered customerMasterAttributes() Controller method");
+    	logger.info(String.format("Attributes: filter_name=%s filter_ipn=%s page=%s", filterName, filterIpn, page));
+    	model.addAttribute("filterName", String.valueOf(filterName));
+    	model.addAttribute("filterIpn", String.valueOf(filterIpn));
+    	model.addAttribute("page", String.valueOf(page));
+        logger.info(String.format("calling  customerMaster()"));
+        customerMaster(model);
+    }
+    
     @RequestMapping(value = "/hiberbankMVC/cust/add", method = RequestMethod.POST)
     public String addCustomer(@ModelAttribute Customer customer, Model model) {
     	logger.info("Entered addCustomer() Controller method");
     	
     	Map<String, Object> m = model.asMap();
     	logger.info("Model attributes:");
-    	for(String key : m.keySet()){
-    		logger.info("\t" + key + " : " + m.get(key));
-    	}
+//    	for(String key : m.keySet()){
+//    		logger.info("\t" + key + " : " + m.get(key));
+//    	}
     	String page = "customer_master";
         logger.info(String.format("Returning page %s", page));
         return page;
