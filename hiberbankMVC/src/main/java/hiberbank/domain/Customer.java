@@ -1,5 +1,7 @@
 package hiberbank.domain;
 
+import java.io.Serializable;
+
 import javax.persistence.*;
 
 import hiberbank.domain.enums.CustomerStatus;
@@ -11,10 +13,11 @@ import hiberbank.domain.enums.CustomerType;
 //@NamedQueries({
 //	@NamedQuery(name="Customer.getCustomerByName", query="SELECT c FROM Customer c WHERE CONCAT(FIRST_NAME, LAST_NAME, FAMILY_NAME) LIKE \"%:P1%\"")
 //})
-public class Customer {	
+public class Customer implements Serializable{	
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@SequenceGenerator(name="SEQ_ID_CUSTOMERS", sequenceName="SEQ_ID_CUSTOMERS")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SEQ_ID_CUSTOMERS")
 	@Column(name="ID", nullable=false, unique=true)
 	private int id;
 	

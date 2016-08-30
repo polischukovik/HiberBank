@@ -1,14 +1,10 @@
 package hiberbank.service.impl;
 
-import java.util.List;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,12 +22,23 @@ public class CustomerServiceImpl implements CustomerService{
  
     @Override
     @Transactional
-    public Customer addCustomer(Customer customer) {
-        Customer savedCustomer = customerRepository.saveAndFlush(customer);
-        return savedCustomer;
+    public Customer addCustomer(Customer customer) throws IllegalArgumentException{
+    	verifyCustomer(customer);
+    	Customer savedCustomer = customerRepository.saveAndFlush(customer);
+        return savedCustomer;    	
     }
     
-    @Override
+    private void verifyCustomer(Customer customer) {
+		if(customer.getType() == null ) {
+			throw new IllegalArgumentException("Type cannot be NULL");
+		}
+		if(customer.getStatus() == null ) {
+			throw new IllegalArgumentException("Status cannot be NULL");
+		}
+		
+	}
+
+	@Override
     @Transactional
 	public void deleteCustomer(int id) {
 		customerRepository.delete(id);

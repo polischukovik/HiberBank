@@ -6,9 +6,13 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import com.google.gson.Gson;
 
 import hiberbank.domain.Customer;
 import hiberbank.service.AccountService;
@@ -33,38 +37,41 @@ public class CustomerController {
         return page;
     }
 
-    @RequestMapping("/hiberbankMVC/cust")
-    public String customerMaster(Model model) {
-    	logger.info("Entered customerMaster() Controller method");
-    	
-    	String page = "customer_master";
-        logger.info(String.format("Returning page %s", page));
-        return page;
-    }
+//    @RequestMapping("/hiberbankMVC/cust")
+//    public String customerMaster(Model model) {
+//    	logger.info("Entered customerMaster() Controller method");
+//    	
+//    	String page = "customer_master";
+//        logger.info(String.format("Returning page %s", page));
+//        return page;
+//    }
     
     @RequestMapping("/hiberbankMVC/cust")
-    public void customerMasterAttributes(@RequestParam String filterName, @RequestParam String filterIpn, @RequestParam String page, Model model) {
+    public String customerMasterAttributes(@RequestParam(required = false) String filterName, @RequestParam(required = false) String filterIpn, @RequestParam(required = false) String pageNo, Model model) {
     	logger.info("Entered customerMasterAttributes() Controller method");
-    	logger.info(String.format("Attributes: filter_name=%s filter_ipn=%s page=%s", filterName, filterIpn, page));
+    	logger.info(String.format("Attributes: filter_name=%s filter_ipn=%s page=%s", filterName, filterIpn, pageNo));
     	model.addAttribute("filterName", String.valueOf(filterName));
     	model.addAttribute("filterIpn", String.valueOf(filterIpn));
-    	model.addAttribute("page", String.valueOf(page));
-        logger.info(String.format("calling  customerMaster()"));
-        customerMaster(model);
-    }
-    
-    @RequestMapping(value = "/hiberbankMVC/cust/add", method = RequestMethod.POST)
-    public String addCustomer(@ModelAttribute Customer customer, Model model) {
-    	logger.info("Entered addCustomer() Controller method");
-    	
-    	Map<String, Object> m = model.asMap();
-    	logger.info("Model attributes:");
-//    	for(String key : m.keySet()){
-//    		logger.info("\t" + key + " : " + m.get(key));
-//    	}
-    	String page = "customer_master";
+    	model.addAttribute("page", String.valueOf(pageNo));
+        String page = "customer_master";
         logger.info(String.format("Returning page %s", page));
         return page;
+    }
+    
+    @RequestMapping(value = "/hiberbankMVC/cust/add", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<String> addCustomer(@ModelAttribute() Customer customer, Model model) {
+    	logger.info("Entered addCustomer() Controller method");
+    	
+    	logger.info("Updating customer: " + customer);
+    	try{
+    		Customer savedCustomer = customerService.addCustomer(customer);
+    		logger.info(String.format("Customer saved:  %s", savedCustomer));
+    	}catch(IllegalArgumentException e){	
+    		logger.error("{" + e.getMessage() + "}");
+    		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Gson().toJson(e.getMessage()));
+    	} 	
+    	
+        return ResponseEntity.status(HttpStatus.OK).body(new Gson().toJson("Ok"));
     }
     
     @RequestMapping("/hiberbankMVC/cust/{id}")

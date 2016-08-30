@@ -86,7 +86,7 @@ var PageSelected = function (event, page) {
 //service functions
 var RestGetCustomers = function(nameStr, ipnStr, page) {
 	
-	if(page == '') page = '1';
+	//if(page == '') page = '1';
 	
         var prefix = '/hiberbankMVC/service/customer' ;
         var request_att_filter_name = 'filter_name=' + nameStr;

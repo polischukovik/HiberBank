@@ -18,12 +18,12 @@ var Init = function(){
 	if(!l_new_customer){
 		RestGetCustomerDetails(l_custId);
 	}  
+	$(OK_BUTTON_ID).click(OkClick);
+	$(BACK_BUTTON_ID).click(BackClick);
 }
 
 var Redraw = function(){
-	$(OK_BUTTON_ID).click(OkClick);
-	$(BACK_BUTTON_ID).click(BackClick);
-	
+	console.log("Redraw");	
 	Materialize.updateTextFields();   
 }
 
@@ -40,10 +40,37 @@ var l_custId ="";
 var l_new_customer = true;
 
 //common functions
-
+function Customer(id, firstName, lastName, familyName, ipn, status, type){
+	if(id){
+		this.id = id;
+	}else{
+		this.id=-1;
+	}	
+	this.firstName = firstName;
+	this.lastName = lastName;
+	this.familyName = familyName;
+	this.ipn = ipn;
+	this.status = status;
+	this.type = type,
+	this.getName = function(){
+		return lastName + ' ' + firstName + ' ' + familyName;
+	}
+}
 //event hendlers
 var OkClick = function(){
-	RestPostCustomer();
+	console.log("OkClick");
+	
+	var cust = new Customer(
+			l_custId,
+			$("#first_name").val(),
+			$("#last_name").val(),
+			$("#family_name").val(),
+			$("#ipn").val(),
+			$("#cust-status input").val(),
+			$("#cust-type input").val()	  
+		);
+	console.log(cust);
+	RestPostCustomer(cust);
 }
 var BackClick = function(){
 	window.location.href = "/hiberbankMVC/cust";
@@ -64,24 +91,28 @@ var RestGetCustomerDetails = function(v_custId) {
             }
         });
 }
-var RestPostCustomer = function() {
+var RestPostCustomer = function(cust) {
 	var prefix = '/hiberbankMVC/cust/add';
     $.ajax({
         type: 'POST',
         url:  prefix,
+        data: cust,
         dataType: 'json',
         async: true,
         success: function(result) {
-        	
+        	Materialize.toast("Customer " + cust.getName() + " saved", 3000, 'rounded')
+        	console.log(result);
         },
-        error: function(jqXHR, textStatus, errorThrown) {
-            alert(jqXHR.status + ' ' + jqXHR.responseText);
+        error: function(jqXHR, textStatus, errorThrown, result) {
+        	Materialize.toast("Failed to save customer " + jqXHR.status + ' ' + jqXHR.responseText, 3000, 'rounded')
+        	console.log(jqXHR.status + ' ' + jqXHR.responseText + ' ' + errorThrown + ' ' + result);
         }
     });
 }
 //interface functions
 var fillCustomerDetails = function(result){
   console.log(result)
+  l_custId = result.id;
   $("#first_name").val(result.firstName);
   $("#last_name").val(result.lastName);
   $("#family_name").val(result.familyName);
