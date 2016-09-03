@@ -47,7 +47,8 @@ public class CustomerController {
 //    }
     
     @RequestMapping("/hiberbankMVC/cust")
-    public String customerMasterAttributes(@RequestParam(required = false) String filterName, @RequestParam(required = false) String filterIpn, @RequestParam(required = false) String pageNo, Model model) {
+    public String customerMasterAttributes(@RequestParam(required = false) String filterName, 
+    		@RequestParam(required = false) String filterIpn, @RequestParam(required = false) String pageNo, Model model) {
     	logger.info("Entered customerMasterAttributes() Controller method");
     	logger.info(String.format("Attributes: filter_name=%s filter_ipn=%s page=%s", filterName, filterIpn, pageNo));
     	model.addAttribute("filterName", String.valueOf(filterName));

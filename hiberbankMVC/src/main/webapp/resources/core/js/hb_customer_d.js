@@ -27,8 +27,6 @@ var Redraw = function(){
 	Materialize.updateTextFields();   
 }
 
-
-
 //static variables
 var BUTTON_CLASS_ENABLED="teal";
 var BUTTON_CLASS_DISABLED="grey"; 
