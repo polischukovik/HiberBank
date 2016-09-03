@@ -14,13 +14,14 @@ import org.springframework.web.bind.annotation.*;
 
 import com.google.gson.Gson;
 
+import hiberbank.domain.Account;
 import hiberbank.domain.Customer;
 import hiberbank.service.AccountService;
 import hiberbank.service.CustomerService;
 
 @Controller
 @RequestMapping("/")
-public class CustomerController {
+public class WebController {
     @Autowired
     private CustomerService customerService;
     @Autowired
@@ -37,20 +38,12 @@ public class CustomerController {
         return page;
     }
 
-//    @RequestMapping("/hiberbankMVC/cust")
-//    public String customerMaster(Model model) {
-//    	logger.info("Entered customerMaster() Controller method");
-//    	
-//    	String page = "customer_master";
-//        logger.info(String.format("Returning page %s", page));
-//        return page;
-//    }
     
     @RequestMapping("/hiberbankMVC/cust")
-    public String customerMasterAttributes(@RequestParam(required = false) String filterName, 
-    		@RequestParam(required = false) String filterIpn, @RequestParam(required = false) String pageNo, Model model) {
+    public String customerMasterAttributes(@RequestParam(name="filter_1", required = false) String filterName, 
+    		@RequestParam(name="filter_2", required = false) String filterIpn, @RequestParam(required = false) String pageNo, Model model) {
     	logger.info("Entered customerMasterAttributes() Controller method");
-    	logger.info(String.format("Attributes: filter_name=%s filter_ipn=%s page=%s", filterName, filterIpn, pageNo));
+    	logger.info(String.format("Attributes: filter_1=%s filter_2=%s page=%s", filterName, filterIpn, pageNo));
     	model.addAttribute("filterName", String.valueOf(filterName));
     	model.addAttribute("filterIpn", String.valueOf(filterIpn));
     	model.addAttribute("page", String.valueOf(pageNo));
@@ -84,16 +77,47 @@ public class CustomerController {
         logger.info(String.format("Returning page %s", page));
         return page;
     }
+	// -----------------------
+
+	@RequestMapping("/hiberbankMVC/acc")
+	public String accountMasterAttributes(@RequestParam(name = "filter_1", required = false) String filterCustomer,
+			@RequestParam(name = "filter_2", required = false) String filterNbu,
+			@RequestParam(required = false) String pageNo, Model model) {
+		logger.info("Entered accountMasterAttributes() Controller method");
+		logger.info(String.format("Attributes: filter_1=%s filter_2=%s page=%s", filterCustomer, filterNbu, pageNo));
+		model.addAttribute("filterCustomer", String.valueOf(filterCustomer));
+		model.addAttribute("pageNo", String.valueOf(filterNbu));
+		model.addAttribute("page", String.valueOf(pageNo));
+		String page = "account_master";
+		logger.info(String.format("Returning page %s", page));
+		return page;
+	}
     
-    @RequestMapping(value = "/hiberbankMVC/acc")
-    public String accountMaster(Model model) {
-    	logger.info("Entered accountMaster() Controller method");
+    @RequestMapping(value = "/hiberbankMVC/acc/add", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<String> addAccount(@ModelAttribute() Account account, Model model) {
+    	logger.info("Entered addAccount() Controller method");
     	
-    	String page = "account_master";
+    	logger.info("Updating customer: " + account);
+    	try{
+    		Account savedAccount = accountService.addAccount(account);
+    		logger.info(String.format("Customer saved:  %s", savedAccount));
+    	}catch(IllegalArgumentException e){	
+    		logger.error("{" + e.getMessage() + "}");
+    		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Gson().toJson(e.getMessage()));
+    	} 	
+    	
+        return ResponseEntity.status(HttpStatus.OK).body(new Gson().toJson("Ok"));
+    }
+    
+    @RequestMapping("/hiberbankMVC/acc/{id}")
+    public String accountDetails(@PathVariable(value = "id") int id, Model model) {
+    	logger.info("Entered accountDetails() Controller method");
+    	
+    	String page = "account_details";
+    	model.addAttribute("accountId", String.valueOf(id));
         logger.info(String.format("Returning page %s", page));
         return page;
     }
-    
 
 }
 

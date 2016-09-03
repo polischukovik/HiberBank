@@ -11,7 +11,7 @@ public interface CustomerService {
 	void deleteCustomer(int id);
 	Page<Customer> getByIpn(String ipn, Pageable pageRequest);
 	Customer editCustomer(Customer customer);
-	Page<Customer> findAll(Pageable pageRequest);
+//	Page<Customer> findAll(Pageable pageRequest);
 	Page<Customer> getFiltered(String name, String ipn, Pageable pageRequest);
 
 }

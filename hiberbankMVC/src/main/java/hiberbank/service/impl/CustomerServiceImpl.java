@@ -56,22 +56,22 @@ public class CustomerServiceImpl implements CustomerService{
 		return customerRepository.saveAndFlush(customer);
 	}
 	
-    @Override
-    @Transactional(readOnly=true)
-    public Page<Customer> findAll(Pageable pageRequest) {
-    	logger.info(String.format("Entered getAll() Service method") );
-    	logger.info(String.format("Executing findAll()") );
-    	
-    	Page<Customer> result = customerRepository.findAll(pageRequest);
-    	
-    	logger.info(String.format("Done findAll(): %d records retrieved",result.getSize()) );
-    	logger.info(String.format("Listing result: ") );
-    	
-    	for(Customer customer : result){
-    		logger.info(String.format("\t%s", customer));
-    	}
-        return result;
-    }
+//    @Override
+//    @Transactional(readOnly=true)
+//    public Page<Customer> findAll(Pageable pageRequest) {
+//    	logger.info(String.format("Entered getAll() Service method") );
+//    	logger.info(String.format("Executing findAll()") );
+//    	
+//    	Page<Customer> result = customerRepository.findAll(pageRequest);
+//    	
+//    	logger.info(String.format("Done findAll(): %d records retrieved",result.getSize()) );
+//    	logger.info(String.format("Listing result: ") );
+//    	
+//    	for(Customer customer : result){
+//    		logger.info(String.format("\t%s", customer));
+//    	}
+//        return result;
+//    }
     
     @Override
     @Transactional(readOnly=true)

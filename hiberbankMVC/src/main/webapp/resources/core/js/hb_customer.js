@@ -1,105 +1,120 @@
-$(document).ready(function(){
-  Init();  
-  $(FILTER_BUTTON_ID).click(FilterClick);
-  $(FILTER_REMOVE_BUTTON_ID).click(FilterRemoveClick);
-  $(ADD_BUTTON_ID).click(AddClick);
-  $("#name-filter-input,#ipn-filter-input").keyup(filterInputEventHendler);
-  
+$(document).ready(function() {
+    Init();
+    $(FILTER_BUTTON_ID).click(FilterClick);
+    $(FILTER_REMOVE_BUTTON_ID).click(FilterRemoveClick);
+    $(ADD_BUTTON_ID).click(AddClick);
+    $(INPUT_FILTER).each(function() {
+        $("" + this).keyup(filterInputEventHendler);
+    });
 })
-var Init = function(){
-	console.log("Init");
-  RestGetCustomers('','',1);
-	//PageSelected(null,1);
-  
+var Init = function() {
+    console.log("Init");
+    RestGetSummary(['', ''], 1);
 }
 
 
 //static variables
-var FILTER_BUTTON_ID="#filter";
-var ADD_BUTTON_ID="#btn-add";
-var FILTER_REMOVE_BUTTON_ID="#remove-filter";
-var INPUT_FILTER_NAME="#name-filter-input";	
-var INPUT_FILTER_IPN="#ipn-filter-input";
-var BUTTON_CLASS_ENABLED="teal";
-var BUTTON_CLASS_DISABLED="grey"; 
+var FILTER_BUTTON_ID = "#filter";
+var ADD_BUTTON_ID = "#btn-add";
+var FILTER_REMOVE_BUTTON_ID = "#remove-filter";
+var INPUT_FILTER = ["#name-filter-input", "#ipn-filter-input"];
+var REST_SUMMARY_PREFIX = '/hiberbankMVC/service/customer';
+var DATA_SUMMARY_BODY = "#data-table-customer-body";
+var BUTTON_CLASS_ENABLED = "teal";
+var BUTTON_CLASS_DISABLED = "grey";
+var ENTITY_PREFIX = "cust";
 //global variables
-var filterEnabled=false;
-var filterRemoveState=false;
-var totalPages=1;
-var prev_page=-1;
-var cur_page=1;
+var filterEnabled = false;
+var filterRemoveState = false;
+var totalPages = 1;
+var prev_page = -1;
+var cur_page = 1;
 
 //common functions
-var styleButtonState = function(id, state){
-  var obj = document.querySelector(id);
-  if(state){
-    obj.classList.remove(BUTTON_CLASS_DISABLED);
-    obj.classList.add(BUTTON_CLASS_ENABLED);
-  }else{
-    obj.classList.remove(BUTTON_CLASS_ENABLED);
-    obj.classList.add(BUTTON_CLASS_DISABLED);
-  }
-}
-var filterInputEventHendler = function (){
-  if($(INPUT_FILTER_NAME).val() != "" || $(INPUT_FILTER_IPN).val() != "") {
-       styleButtonState(FILTER_BUTTON_ID, true)
-       styleButtonState(FILTER_REMOVE_BUTTON_ID, true)
+var styleButtonState = function(id, state) {
+    var obj = document.querySelector(id);
+    if (state) {
+        obj.classList.remove(BUTTON_CLASS_DISABLED);
+        obj.classList.add(BUTTON_CLASS_ENABLED);
     } else {
-       styleButtonState(FILTER_BUTTON_ID, false) 
-       styleButtonState(FILTER_REMOVE_BUTTON_ID, false)
+        obj.classList.remove(BUTTON_CLASS_ENABLED);
+        obj.classList.add(BUTTON_CLASS_DISABLED);
     }
 }
-//event hendlers
-var AddClick = function(){
-	window.document.location = "cust/-1";
-	console.log("Add");
+var filterInputEventHendler = function() {
+        var flag = false;
+        $(INPUT_FILTER).each(function() {
+            if ($("" + this).val() != "") flag = true;
+        });
+        if (flag) {
+            styleButtonState(FILTER_BUTTON_ID, true)
+            styleButtonState(FILTER_REMOVE_BUTTON_ID, true)
+        } else {
+            styleButtonState(FILTER_BUTTON_ID, false)
+            styleButtonState(FILTER_REMOVE_BUTTON_ID, false)
+        }
+    }
+    //event hendlers
+var AddClick = function() {
+    window.document.location = ENTITY_PREFIX + "/-1";
+    console.log("Add");
 }
-var FilterClick = function(){
-  if(document.querySelector(FILTER_BUTTON_ID).classList.contains(BUTTON_CLASS_ENABLED)){
-    filterEnabled = true;
-    console.log("Filter enabled");    
-    styleButtonState(FILTER_BUTTON_ID, filterEnabled);
-    var nameFilterTxt = $(INPUT_FILTER_NAME).val();
-    var ipnFilterTxt = $(INPUT_FILTER_IPN).val();
-    RestGetCustomers(nameFilterTxt,ipnFilterTxt,1);
+var FilterClick = function() {
+    if (document.querySelector(FILTER_BUTTON_ID).classList.contains(BUTTON_CLASS_ENABLED)) {
+        filterEnabled = true;
+        console.log("Filter enabled");
+        styleButtonState(FILTER_BUTTON_ID, filterEnabled);
+
+        var FILTER_VALUES = [];
+        $(INPUT_FILTER).each(function() {
+            FILTER_VALUES.push($("" + this).val());
+        });
+
+        RestGetSummary(FILTER_VALUES, 1);
+        styleButtonState(FILTER_BUTTON_ID, false);
+    }
+}
+var FilterRemoveClick = function() {
+    $(INPUT_FILTER).each(function() {
+        $("" + this).val("");
+    });
     styleButtonState(FILTER_BUTTON_ID, false);
-  }
-}
-var FilterRemoveClick = function(){ 
-  $("#name-filter-input,#ipn-filter-input").val('');
-  styleButtonState(FILTER_BUTTON_ID, false);
-  styleButtonState(FILTER_REMOVE_BUTTON_ID, false);
-  if(filterEnabled){
-    filterEnabled = false;
-    console.log("Filter disabled");    
-    RestGetCustomers('','',1);  
-  }
+    styleButtonState(FILTER_REMOVE_BUTTON_ID, false);
+    if (filterEnabled) {
+        filterEnabled = false;
+        console.log("Filter disabled");
+        var FILTER_VALUES = [];
+        $(INPUT_FILTER).each(function() {
+            FILTER_VALUES.push($("" + this).val());
+        });
+        RestGetSummary(FILTER_VALUES, 1);
+    }
 }
 
-var PageSelected = function (event, page) {
-    var nameFilterTxt = $(INPUT_FILTER_NAME).val();
-    var ipnFilterTxt = $(INPUT_FILTER_IPN).val();
-    console.log("PageSelected");
-    $('#page-content').text('Page ' + page);
-    //RestGetCustomers(nameFilterTxt,ipnFilterTxt,page);
-}
-//service functions
-var RestGetCustomers = function(nameStr, ipnStr, page) {
-	
-	//if(page == '') page = '1';
-	
-        var prefix = '/hiberbankMVC/service/customer' ;
-        var request_att_filter_name = 'filter_name=' + nameStr;
-        var request_att_filter_ipn = 'filter_ipn=' + ipnStr;
-        var request_att_page = 'page=' + page;
-        console.log(prefix + '/?'+request_att_filter_name + '&' + request_att_filter_ipn + '&' + request_att_page)
+var PageSelected = function(event, page) {
+        console.log("PageSelected");
+        $('#page-content').text('Page ' + page);
+    }
+    //service functions
+var RestGetSummary = function(filter_val_arr, page) {
+        var att_sufix = "";
+
+        $(filter_val_arr).each(function(index, value) {
+            if (index == 0) {
+                att_sufix += 'filter_' + (index + 1) + '=' + value;
+            } else {
+                att_sufix += '&filter_' + (index + 1) + '=' + value;
+            }
+        });
+        att_sufix += '&page=' + page;
+        console.log(REST_SUMMARY_PREFIX + '?' + att_sufix)
         $.ajax({
             type: 'GET',
-            url:  prefix + '/?'+request_att_filter_name + '&' + request_att_filter_ipn + '&' + request_att_page,
+            url: REST_SUMMARY_PREFIX + '?' + att_sufix,
             dataType: 'json',
             async: true,
             success: function(result) {
-            	console.log("RestGetCustomers:\n" + result);
+                console.log("RestGetSummary:\n" + result);
                 fillCustomerTable(result);
                 createPaginations(result.totalPages);
             },
@@ -107,15 +122,15 @@ var RestGetCustomers = function(nameStr, ipnStr, page) {
                 alert(jqXHR.status + ' ' + jqXHR.responseText);
             }
         });
-}
-//interface functions
-var fillCustomerTable = function(result){
-  var tableContent = "";
-  var array = result.content;
-  totalPages = result.totalPages;
-  for(var o in array){
-	var i = array[o];
-    tableContent += '<tr id="'+ i.id + '" class="clickable-row"> \
+    }
+    //interface functions
+var fillCustomerTable = function(result) {
+    var tableContent = "";
+    var array = result.content;
+    totalPages = result.totalPages;
+    for (var o in array) {
+        var i = array[o];
+        tableContent += '<tr id="' + i.id + '" class="clickable-row"> \
                      <td>' + i.lastName + ' \
                      ' + i.firstName + ' \
                      ' + i.familyName + '</td>\
@@ -125,106 +140,108 @@ var fillCustomerTable = function(result){
                       <td>' + i.createdTs + '</td> \
                       <td>' + i.modifiedTs + '</td> \
                       </tr>'
-  }
+    }
 
-	//console.log(tableContent);
-  tableContent += "\n";
-  $("#data-table-customer-body").html(tableContent);
-  $(".clickable-row").click(function() {
-      window.document.location = "cust/" + $(this).attr('id');
-      console.log("listener set");
-  });
+    //console.log(tableContent);
+    tableContent += "\n";
+    $(DATA_SUMMARY_BODY).html(tableContent);
+    $(".clickable-row").click(function() {
+        window.document.location = ENTITY_PREFIX + "/" + $(this).attr('id');
+        console.log("listener set");
+    });
 }
-var createPaginations = function(count){
-	//if(!count) count = 1;
-	console.log("Creating pagination with page count" + count)
-	$('#pagination').empty();
-	$('#pagination').removeData("twbs-pagination");	
-	$('#pagination').unbind("page");
-	
-	$('#pagination').twbsPagination({
-	      totalPages: count,
-	      visiblePages: 5,
-	      initiateStartPageClick: false,
-	      onPageClick: function (event, page) {
-    	  
-    	    var nameFilterTxt = $(INPUT_FILTER_NAME).val();
-    	    var ipnFilterTxt = $(INPUT_FILTER_IPN).val();
-    	    console.log("PageSelected: " + page);
-    	    
-    	    RestGetCustomers(nameFilterTxt,ipnFilterTxt,page);
-	    	}
-	  });
-}
-/*
-    var RestGet = function() {
-        $.ajax({
-            type: 'GET',
-            url:  prefix + '/' + Date.now(),
-            dataType: 'json',
-            async: true,
-            success: function(result) {
-                alert('Время: ' + result.time
-                        + ', сообщение: ' + result.message);
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                alert(jqXHR.status + ' ' + jqXHR.responseText);
+var createPaginations = function(count) {
+        //if(!count) count = 1;
+        console.log("Creating pagination with page count" + count)
+        $('#pagination').empty();
+        $('#pagination').removeData("twbs-pagination");
+        $('#pagination').unbind("page");
+
+        $('#pagination').twbsPagination({
+            startPage: cur_page,
+            totalPages: count,
+            visiblePages: 5,
+            initiateStartPageClick: false,
+            onPageClick: function(event, page) {
+                var FILTER_VALUES = [];
+                $(INPUT_FILTER).each(function() {
+                    FILTER_VALUES.push($("" + this).val());
+                });
+                console.log("PageSelected: " + page);
+                cur_page = page;
+                RestGetSummary(FILTER_VALUES, page);
             }
         });
     }
- 
-    var RestPut = function() {
-        var JSONObject= {
-            'time': Date.now(),
-            'message': 'Это пример вызова PUT метода'
-        };
- 
-        $.ajax({
-            type: 'PUT',
-            url:  prefix,
-            contentType: 'application/json; charset=utf-8',
-            data: JSON.stringify(JSONObject),
-            dataType: 'json',
-            async: true,
-            success: function(result) {
-                alert('Время: ' + result.time
-                        + ', сообщенеи: ' + result.message);
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                alert(jqXHR.status + ' ' + jqXHR.responseText);
-            }
-        });
-    }
- 
-    var RestPost = function() {
-        $.ajax({
-            type: 'POST',
-            url:  prefix,
-            dataType: 'json',
-            async: true,
-            success: function(result) {
-                alert('Время: ' + result.time
-                        + ', сообщение: ' + result.message);
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                alert(jqXHR.status + ' ' + jqXHR.responseText);
-            }
-        });
-    }
- 
-    var RestDelete = function() {
-        $.ajax({
-            type: 'DELETE',
-            url:  prefix + '/' + Date.now(),
-            dataType: 'json',
-            async: true,
-            success: function(result) {
-                alert('Время: ' + result.time
-                        + ', сообщение: ' + result.message);
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                alert(jqXHR.status + ' ' + jqXHR.responseText);
-            }
-        });
-    }
-*/
+    /*
+        var RestGet = function() {
+            $.ajax({
+                type: 'GET',
+                url:  prefix + '/' + Date.now(),
+                dataType: 'json',
+                async: true,
+                success: function(result) {
+                    alert('Время: ' + result.time
+                            + ', сообщение: ' + result.message);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert(jqXHR.status + ' ' + jqXHR.responseText);
+                }
+            });
+        }
+     
+        var RestPut = function() {
+            var JSONObject= {
+                'time': Date.now(),
+                'message': 'Это пример вызова PUT метода'
+            };
+     
+            $.ajax({
+                type: 'PUT',
+                url:  prefix,
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(JSONObject),
+                dataType: 'json',
+                async: true,
+                success: function(result) {
+                    alert('Время: ' + result.time
+                            + ', сообщенеи: ' + result.message);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert(jqXHR.status + ' ' + jqXHR.responseText);
+                }
+            });
+        }
+     
+        var RestPost = function() {
+            $.ajax({
+                type: 'POST',
+                url:  prefix,
+                dataType: 'json',
+                async: true,
+                success: function(result) {
+                    alert('Время: ' + result.time
+                            + ', сообщение: ' + result.message);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert(jqXHR.status + ' ' + jqXHR.responseText);
+                }
+            });
+        }
+     
+        var RestDelete = function() {
+            $.ajax({
+                type: 'DELETE',
+                url:  prefix + '/' + Date.now(),
+                dataType: 'json',
+                async: true,
+                success: function(result) {
+                    alert('Время: ' + result.time
+                            + ', сообщение: ' + result.message);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert(jqXHR.status + ' ' + jqXHR.responseText);
+                }
+            });
+        }
+    */

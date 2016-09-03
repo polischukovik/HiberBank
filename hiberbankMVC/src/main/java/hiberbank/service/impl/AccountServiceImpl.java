@@ -5,10 +5,13 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import hiberbank.domain.Account;
+import hiberbank.domain.Customer;
 import hiberbank.repository.AccountRepository;
 import hiberbank.service.AccountService;
 
@@ -50,6 +53,24 @@ public class AccountServiceImpl implements AccountService{
     	for(Account account : result){
     		logger.info(String.format("\t%s", account));
     	}
+        return result;
+    }
+    
+    @Override
+    @Transactional(readOnly=true)
+    public Page<Account> getFiltered(String custName, String nbu, Pageable pageRequest) {
+    	logger.info(String.format("Entered getFiltered() Service method") );
+    	logger.info(String.format("Executing findFilteredByCustomerAndNbu(:s, :s) with search parameters [%s, %s]", custName, nbu) );
+    	
+    	Page<Account> result = accountRepository.findFilteredByCustomerAndNbu( nbu, pageRequest);
+    	
+    	logger.info(String.format("Done findFilteredByNameAndIpn(): %d records in %d pages retrieved",result.getTotalElements(), result.getTotalPages()));
+    	logger.info(String.format("Listing result: ") );
+    	
+    	for(Account account : result){
+    		logger.info(String.format("\t%s", account));
+    	}
+    	
         return result;
     }
 }
