@@ -42,9 +42,9 @@ public class SpringRootConfig{
     private static final String PROPERTY_DATABASE_URL = "db.url";
     private static final String PROPERTY_DATABASE_USERNAME = "db.username";
     private static final String PROPERTY_HIBERNATE_DIALECT = "db.hibernate.dialect";
-    private static final String PROPERTY_HIBERNATE_SHOW_SQL = "db.hibernate.show_sql";
+    private static final String PROPERTY_HIBERNATE_SHOW_SQL = "hibernate.show_sql";
     private static final String PROPERTY_ENTITYMANAGER_PACKAGES_TO_SCAN = "hiberbank.domain";
-    private static final String PROPERTY_HIBERNATE_HBM2DDL_AUTO = "db.hibernate.hbm2ddl.auto";
+    private static final String PROPERTY_HIBERNATE_HBM2DDL_AUTO = "hibernate.hbm2ddl.auto";
     
     @Resource
     private Environment env;

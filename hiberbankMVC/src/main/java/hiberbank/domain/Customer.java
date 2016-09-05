@@ -16,8 +16,12 @@ import hiberbank.domain.enums.CustomerType;
 public class Customer implements Serializable{	
 	
 	@Id
-	@SequenceGenerator(name="SEQ_ID_CUSTOMERS", sequenceName="SEQ_ID_CUSTOMERS")
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SEQ_ID_CUSTOMERS")
+	 @GeneratedValue(strategy=GenerationType.TABLE, generator="tbl-gen")
+	 @TableGenerator(name="tbl-gen", 
+	   pkColumnName="ENTITY_TBL_NAME", allocationSize=150,
+	   table="GENERATORS")
+	//@SequenceGenerator(name="SEQ_ID_CUSTOMERS", sequenceName="SEQ_ID_CUSTOMERS")
+	//@GeneratedValue(strategy=GenerationType.AUTO)//, generator="SEQ_ID_CUSTOMERS")
 	@Column(name="ID", nullable=false, unique=true)
 	private int id;
 	
